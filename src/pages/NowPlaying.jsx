@@ -1,0 +1,110 @@
+import { useState, useEffect } from "react";
+import Card from "../components/Card";
+import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
+import useDocumentTitle from "../Hooks/useDocumentTitle";
+import { useSearchParams } from "react-router-dom";
+
+const NowPlaying = () => {
+  const [loading, setLoading] = useState(false);
+  const [playingMovies, setPlayingMovies] = useState([]);
+  // const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page")) || 1;
+  const [totalPages, setTotalPages] = useState("");
+  useDocumentTitle("Movies Playing Now");
+
+  const fetchPlayingMovies = async (page) => {
+    const playingMoviesUrl = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${page}`;
+
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
+      },
+    };
+
+    try {
+      setLoading(true);
+      await fetch(playingMoviesUrl, options)
+        .then((res) => res.json())
+        .then((data) => {
+          setPlayingMovies(data.results);
+          setTotalPages(data.total_pages);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+  const handleNextPage = () => {
+    setSearchParams({ page: page + 1 });
+  };
+
+  const handlePrevPage = () => {
+    setSearchParams({ page: page - 1 });
+  };
+
+  useEffect(() => {
+    fetchPlayingMovies(page);
+  }, [page]);
+
+  return (
+    <div className="max-container small-screen-padding pt-28">
+      {loading ? (
+        <h1 className="text-3xl font-montserrat small-screen-padding top-0 left-0 min-h-dvh">
+          Loading . . .
+        </h1>
+      ) : (
+        <section>
+          <h1 className="font-montserrat text-2xl lg:text-4xl mb-4">
+            Now Playing
+          </h1>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pb-7">
+            {playingMovies.map((movie) => {
+              return (
+                <Card
+                  key={movie.id}
+                  movie={movie}
+                  id={movie.id}
+                  image={movie.poster_path}
+                  title={movie.title}
+                  released={movie.release_date}
+                  voteAverage={movie.vote_average}
+                  voteCount={movie.vote_count}
+                  overview={movie.overview}
+                />
+              );
+            })}
+          </div>
+          <div className="text-center font-montserrat border-t border-gray-300 pt-5">
+            <p>
+              Page {page} of {totalPages}
+            </p>
+            <div className="flex justify-center items-center gap-7 mt-2">
+              {page > 1 && (
+                <button
+                  onClick={handlePrevPage}
+                  className="text-2xl hover:text-light-green">
+                  <GrLinkPrevious />
+                </button>
+              )}
+              {page < totalPages && (
+                <button
+                  onClick={handleNextPage}
+                  className="text-2xl hover:text-light-green">
+                  <GrLinkNext />
+                </button>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+};
+
+export default NowPlaying;
