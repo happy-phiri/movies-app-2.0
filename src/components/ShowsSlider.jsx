@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import MovieCard from "./MovieCard";
+import ShowCard from "./ShowCard";
 
-const Slider = ({ arr }) => {
+const ShowsSlider = ({ arr }) => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -25,14 +25,14 @@ const Slider = ({ arr }) => {
   const elements = arr.map((item) => {
     return (
       <div key={item.id} className="w-[300px]">
-        <MovieCard
+        <ShowCard
           className="react-multi-carousel-item react-multi-carousel-list "
           key={item.id}
-          movie={item}
+          show={item}
           id={item.id}
           image={item.poster_path}
-          title={item.title}
-          released={item.release_date}
+          title={item.name}
+          released={item.first_air_date}
           voteAverage={item.vote_average}
           voteCount={item.vote_count}
           overview={item.overview}
@@ -65,4 +65,4 @@ const Slider = ({ arr }) => {
   );
 };
 
-export default Slider;
+export default ShowsSlider;

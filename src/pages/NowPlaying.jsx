@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Card from "../components/Card";
+import MovieCard from "../components/MovieCard";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { useSearchParams } from "react-router-dom";
@@ -7,11 +7,10 @@ import { useSearchParams } from "react-router-dom";
 const NowPlaying = () => {
   const [loading, setLoading] = useState(false);
   const [playingMovies, setPlayingMovies] = useState([]);
-  // const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
   const [totalPages, setTotalPages] = useState("");
-  useDocumentTitle("Movies Playing Now");
+  useDocumentTitle("Movies | Playing Now");
 
   const fetchPlayingMovies = async (page) => {
     const playingMoviesUrl = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${page}`;
@@ -66,7 +65,7 @@ const NowPlaying = () => {
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pb-7">
             {playingMovies.map((movie) => {
               return (
-                <Card
+                <MovieCard
                   key={movie.id}
                   movie={movie}
                   id={movie.id}

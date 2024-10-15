@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
+import PersonCard from "../components/PersonCard";
 
 const People = () => {
   const [people, setPeople] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
   const [totalPages, setTotalPages] = useState("");
-  useDocumentTitle("Popular People Today");
+  useDocumentTitle("People | Popular TV & Movie Personalities");
 
   const fetchPeople = async (page) => {
     const peopleUrl = `https://api.themoviedb.org/3/person/popular?language=en-US&page=${page}`;
@@ -44,12 +44,10 @@ const People = () => {
   }, [page]);
 
   const handleNextPage = () => {
-    // setPage((prevState) => prevState + 1);
     setSearchParams({ page: page + 1 });
   };
 
   const handlePrevPage = () => {
-    // setPage((prevState) => prevState - 1);
     setSearchParams({ page: page - 1 });
   };
 
@@ -70,31 +68,12 @@ const People = () => {
         <div className="grid place-content-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pb-10">
           {people.map((person) => {
             return (
-              <div
+              <PersonCard
                 key={person.id}
-                className=" cursor-pointer shadow-md shadow-slate-300 rounded-b-md hover:scale-95 duration-200">
-                <Link
-                  to={`/actors/${person.id}`}
-                  state={{ knownFor: person.known_for }}>
-                  {person.profile_path ? (
-                    <img
-                      src={`https://image.tmdb.org/t/p/original/${person.profile_path}`}
-                      alt={person.original_name}
-                      className="rounded-t-md max-md:w-[320px]"
-                    />
-                  ) : (
-                    <img
-                      src="/src/assets/images/no_image.png"
-                      alt="no image"
-                      className="min-h-[360px] object-contain"
-                    />
-                  )}
-
-                  <p className="text-center px-2 py-3">
-                    {person.original_name}
-                  </p>
-                </Link>
-              </div>
+                id={person.id}
+                image={person.profile_path}
+                name={person.name}
+              />
             );
           })}
         </div>

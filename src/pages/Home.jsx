@@ -4,27 +4,31 @@ import Slider from "../components/Slider";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
+import ShowsSlider from "../components/ShowsSlider";
 
 const Home = () => {
-  const { loading, playingMovies, popularMovies, topRatedMovies } =
-    useGlobalContext();
-  useDocumentTitle("Home");
+  const {
+    loading,
+    playingMovies,
+    popularMovies,
+    topRatedMovies,
+    popularTvShows,
+  } = useGlobalContext();
+  useDocumentTitle("Home | Movies, TV Shows & TV Personalities");
 
   return (
-    <main className=" ">
+    <main>
       {loading ? (
-        <section>
-          <h1>Loading . . .</h1>
-        </section>
+        <h1 className="text-xl max-container font-montserrat small-screen-padding pt-28 top-0 left-0 min-h-dvh">
+          Loading . . .
+        </h1>
       ) : (
         <section>
           <Hero />
-          <div className="max-container small-screen-padding mt-5">
+          <div className="mt-5 max-container small-screen-padding font-montserrat tracking-wide">
             <div>
-              <div className="font-montserrat tracking-wide flex justify-between items-center flex-nowrap">
-                <h2 className="font-montserrat text-2xl max-sm:text-xl py-5">
-                  Now Playing
-                </h2>
+              <div className="flex justify-between items-center flex-nowrap">
+                <h2 className="text-2xl max-sm:text-xl py-5">Now Playing</h2>
                 <Link to="now-playing">
                   <button className="flex flex-row flex-nowrap gap-2 items-center hover:text-light-green">
                     More <FaChevronRight />
@@ -35,10 +39,8 @@ const Home = () => {
             </div>
 
             <div className="mt-5">
-              <div className="font-montserrat tracking-wide flex justify-between items-center flex-nowrap">
-                <h2 className="font-montserrat text-2xl max-sm:text-xl py-5">
-                  Popular Movies
-                </h2>
+              <div className="flex justify-between items-center flex-nowrap">
+                <h2 className="text-2xl max-sm:text-xl py-5">Popular Movies</h2>
                 <Link to="popular">
                   <button className="flex flex-row flex-nowrap gap-2 items-center hover:text-light-green">
                     More <FaChevronRight />
@@ -49,8 +51,8 @@ const Home = () => {
             </div>
 
             <div className="mt-5">
-              <div className="font-montserrat tracking-wide flex justify-between items-center flex-nowrap">
-                <h2 className="font-montserrat text-2xl max-sm:text-xl py-5">
+              <div className="flex justify-between items-center flex-nowrap">
+                <h2 className="text-2xl max-sm:text-xl py-5">
                   Top Rated Movies
                 </h2>
                 <Link to="top-rated">
@@ -60,6 +62,20 @@ const Home = () => {
                 </Link>
               </div>
               <Slider arr={topRatedMovies} />
+            </div>
+
+            <div className="mt-5">
+              <div className="flex justify-between items-center flex-nowrap">
+                <h2 className="text-2xl max-sm:text-xl py-5">
+                  Popular TV Shows
+                </h2>
+                <Link to="shows">
+                  <button className="flex flex-row flex-nowrap gap-2 items-center hover:text-light-green">
+                    More <FaChevronRight />
+                  </button>
+                </Link>
+              </div>
+              <ShowsSlider arr={popularTvShows} />
             </div>
           </div>
         </section>

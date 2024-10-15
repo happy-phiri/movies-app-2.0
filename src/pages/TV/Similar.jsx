@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MovieCard from "../../components/MovieCard";
+import ShowCard from "../../components/ShowCard";
 
-const Recommendations = () => {
+const Similar = () => {
   const { id } = useParams();
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
-  const recommendationsUrl = `https://api.themoviedb.org/3/movie/${id}/recommendations`;
+
+  const recommendationsUrl = `https://api.themoviedb.org/3/tv/${id}/recommendations`;
 
   const options = {
     method: "GET",
@@ -45,18 +46,20 @@ const Recommendations = () => {
     return (
       <section className="mt-10 pt-4 border-t border-t-slate-200">
         <h2 className="font-montserrat text-2xl mb-2 tracking-wide">
-          Recommendations
+          Similar Shows
         </h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 max-md:gap-2 gap-4">
           {recommendations.slice(0, 10).map((recommendation) => {
             return (
-              <MovieCard
+              <ShowCard
                 key={recommendation.id}
                 movie={recommendation}
                 id={recommendation.id}
                 image={recommendation.poster_path}
-                title={recommendation.original_title}
-                released={recommendation.release_date}
+                title={recommendation.name || recommendation.title}
+                released={
+                  recommendation.first_air_date || recommendation.release_date
+                }
                 voteAverage={recommendation.vote_average}
                 voteCount={recommendation.vote_count}
                 overview={recommendation.overview}
@@ -70,4 +73,4 @@ const Recommendations = () => {
   }
 };
 
-export default Recommendations;
+export default Similar;

@@ -3,51 +3,49 @@ import { useParams, NavLink, Outlet } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
 import { FaStar } from "react-icons/fa";
 import Button from "../../components/Button";
-import Recommendations from "./Recommendations";
+import Similar from "./Similar";
 import { useGlobalContext } from "../../context";
 
-const Movie = () => {
+const Show = () => {
   const { id } = useParams();
-  const [movie, setMovie] = useState("");
+  const [show, setShow] = useState("");
   const [loading, setLoading] = useState(false);
   const { addToFavorites, removeFromFavorites, favoriteMovies } =
     useGlobalContext();
 
   // CHECK IF MOVIE HAS BEEN ADDED TO FAVORITES LIST
-  const isFavorite = favoriteMovies.find(
-    (favMovie) => favMovie.id === movie.id
-  );
-
-  const fetchMovie = async () => {
-    const movieUrl = `https://api.themoviedb.org/3/movie/${id}`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-      },
-    };
-
-    try {
-      setLoading(true);
-      await fetch(movieUrl, options)
-        .then((res) => res.json())
-        .then((data) => setMovie(data));
-    } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-    console.log(movie);
-  };
+  const isFavorite = favoriteMovies.find((favMovie) => favMovie.id === show.id);
 
   useEffect(() => {
-    fetchMovie();
+    const fetchShow = async () => {
+      const movieUrl = `https://api.themoviedb.org/3/tv/${id}`;
+
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
+        },
+      };
+
+      try {
+        setLoading(true);
+        await fetch(movieUrl, options)
+          .then((res) => res.json())
+          .then((data) => setShow(data));
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading(false);
+      console.log(show);
+    };
+
+    fetchShow();
   }, [id]);
 
   const backgroundImage = {
-    backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
+    backgroundImage: `url(https://image.tmdb.org/t/p/original/${show.backdrop_path})`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -72,37 +70,37 @@ const Movie = () => {
             <div className="max-container grid grid-cols-1 auto-rows-min gap-2 md:grid-cols-5 md:items-center md:gap-8">
               <div className="grid place-items-center md:col-span-2">
                 <img
-                  src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                  alt={movie.title}
+                  src={`https://image.tmdb.org/t/p/original/${show.poster_path}`}
+                  alt={show.name}
                   className="rounded-lg"
                 />
               </div>
 
               <div className="md:col-span-3 self-center">
-                {movie && (
+                {show && (
                   <div className=" ont-montserrat mb-3 text-white">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2 tracking-wide">
-                      {movie.title}
+                      {show.name}
                     </h1>
-                    <p className="font-light text-lg md:my-2 xl:text-xl leading-normal w-[80%] lg:w-[65%]">
-                      {movie.tagline}
+                    <p className="font-light text-lg md:my-2 xl:text-xl leading-normal w-[80%] lg:w-[65%] tracking-wide">
+                      {show.tagline}
                     </p>
                     <p className="font-light leading-normal flex justify-start items-center gap-2 text-sm xl:text-base mb-4">
                       <FaStar className="text-yellow-400 xl:text-sm" />
                       <FaStar className="text-yellow-400 xl:text-sm" />
                       <FaStar className="text-yellow-400 xl:text-sm" />
-                      {movie.vote_average.toFixed(2)}
+                      {show.vote_average.toFixed(2)}
                       <GoDotFill className="text-xs" />
-                      <span>({movie.vote_count} Votes)</span>
+                      <span>({show.vote_count} Votes)</span>
                     </p>
                     {isFavorite ? (
                       <div
                         className="border-transparent"
-                        onClick={() => removeFromFavorites(movie)}>
+                        onClick={() => removeFromFavorites(show)}>
                         <Button text={"Remove from Favorites"} />
                       </div>
                     ) : (
-                      <div onClick={() => addToFavorites(movie)}>
+                      <div onClick={() => addToFavorites(show)}>
                         <Button text={"Add to Favorites"} />
                       </div>
                     )}
@@ -136,6 +134,15 @@ const Movie = () => {
                 Details
               </NavLink>
               <NavLink
+                to="seasons"
+                className={({ isActive }) =>
+                  isActive
+                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-1"
+                    : "border px-2 py-1 hover:theme-gradient-text hover:border-[#01b4e4]"
+                }>
+                Seasons
+              </NavLink>
+              <NavLink
                 to="trailer"
                 className={({ isActive }) =>
                   isActive
@@ -165,35 +172,20 @@ const Movie = () => {
             </nav>
 
             {/* OUTLET FOR OVERVIEW, CAST, TRAILER, DETAILS AND REVIEWS COMPONENTS */}
-            <Outlet context={{ movie }} />
+            <Outlet context={{ show }} />
 
             <div className="mt-4">
-              {movie.imdb_id && movie.homepage ? (
+              {show.homepage && (
                 <p className="font-montserrat font-normal italic leading-normal text-sm md:w-[80%] md:text-base text-black tracking-wide">
-                  Find out more about {movie.title} on{" "}
-                  <a
-                    href={`https://www.imdb.com/title/${movie.imdb_id}/`}
-                    className="text-light-blue">
-                    IMDB
-                  </a>
-                  , or visit the official movie homepage{" "}
-                  <a href={movie.homepage} className="text-light-blue">
+                  Visit the official {show.name} homepage{" "}
+                  <a href={show.homepage} className="text-light-blue">
                     here
-                  </a>
-                </p>
-              ) : (
-                <p className="font-montserrat font-normal italic leading-normal text-sm md:w-[80%] md:text-base text-black tracking-wide">
-                  Find out more about {movie.title} on{" "}
-                  <a
-                    href={`https://www.imdb.com/title/${movie.imdb_id}/`}
-                    className="text-light-blue">
-                    IMDB
                   </a>
                 </p>
               )}
             </div>
 
-            <Recommendations />
+            <Similar />
           </div>
         </section>
       </main>
@@ -201,4 +193,4 @@ const Movie = () => {
   }
 };
 
-export default Movie;
+export default Show;

@@ -34,12 +34,15 @@ const Hero = () => {
         style={backgroundImage}>
         <div className="max-container grid grid-cols-1 auto-rows-min gap-2 md:grid-cols-5 md:items-center md:gap-8">
           <div className="grid place-items-center md:col-span-2">
+            {/* HERO IMAGE */}
             <img
               src={`https://image.tmdb.org/t/p/original/${randomMovie.poster_path}`}
               alt={randomMovie.title}
               className="rounded-lg md:w-[90%] place-self-start"
             />
           </div>
+
+          {/* HERO TEXT DESCRIPTION */}
           <div className="md:col-span-3 self-center place-self-start font-montserrat text-white">
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl my-2 tracking-wider drop-shadow-lg shadow-black">
               {randomMovie.title}

@@ -6,19 +6,20 @@ import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [inputText, setInputText] = useState("");
-  //   const [searchTerm, setSearchTerm] = useState("");
   const searchTerm = searchParams.get("query") || "";
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const page = parseInt(searchParams.get("page")) || 1;
   const [totalPages, setTotalPages] = useState("");
   const [totalResults, setTotalResults] = useState("");
-  const pageTitle = searchTerm ? `Results for ${searchTerm}` : "Search Movies";
+  const pageTitle = searchTerm
+    ? `Search | Results for ${searchTerm}`
+    : "Search | Find Your Favorite Movies, Shows, or Actors";
   useDocumentTitle(pageTitle);
 
   const fetchResults = async (term, page) => {
     if (!term) return;
-    const searchUrl = `https://api.themoviedb.org/3/search/movie?query=${term}&include_adult=false&language=en-US&page=${page}`;
+    const searchUrl = `https://api.themoviedb.org/3/search/multi?query=${term}&include_adult=false&language=en-US&page=${page}`;
 
     const options = {
       method: "GET",
@@ -83,7 +84,7 @@ const Search = () => {
           </label>
           <input
             type="text"
-            placeholder="Search Movies"
+            placeholder="Find Your Favorite Movies, Shows, or Actors"
             id="search"
             onChange={handleInput}
             value={inputText}
@@ -96,51 +97,122 @@ const Search = () => {
         </div>
       </form>
 
-      {results.length === 0 ? (
+      {loading ? (
         <p className="font-montserrat text-sm text-gray-400 italic">
-          {loading ? "Loading . . ." : "Search Results will appear here . . ."}
+          Searching . . .
         </p>
       ) : (
         <section>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-montserrat text-xl  tracking-wide">
-              {totalResults} {totalResults > 1 ? "results" : "result"} found for{" "}
-              <span className="italic">{searchTerm.toLocaleUpperCase()}</span>
-            </h2>
-            <button
-              onClick={handleReset}
-              className="py-1 px-3 font-montserrat font-normal text-xs rounded-2xl tracking-wide text-[#e57373] border border-[#e57373] hover:text-white hover:border-transparent hover:bg-[#e57373]">
-              Clear
-            </button>
-          </div>
+          {searchTerm && (
+            <div className="flex justify-between items-center gap-2 mb-4">
+              {totalResults >= 1 ? (
+                <h2 className="font-montserrat font-light text-2xl max-sm:text-base tracking-wide text-gray-800">
+                  <span className="font-semibold">{totalResults}</span>{" "}
+                  {totalResults > 1 ? "results" : "result"} found for{" "}
+                  <span className="font-semibold text-black">
+                    {searchTerm.toLocaleUpperCase()}
+                  </span>
+                </h2>
+              ) : (
+                <h2 className="font-montserrat font-light text-2xl max-sm:text-base tracking-wide text-gray-800">
+                  <span className="font-semibold">{totalResults}</span> results
+                  for{" "}
+                  <span className="font-semibold text-black">
+                    {searchTerm.toLocaleUpperCase()}
+                  </span>
+                </h2>
+              )}
+
+              <button
+                onClick={handleReset}
+                className="py-1 px-3 font-montserrat font-normal text-xs rounded-2xl tracking-wide text-[#e57373] border border-[#e57373] hover:text-white hover:border-transparent hover:bg-[#e57373]">
+                Clear
+              </button>
+            </div>
+          )}
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {results.map((result) => {
-              return (
-                <div
-                  key={result.id}
-                  className="shadow-md shadow-slate-300 rounded-b-lg hover:scale-95 duration-200">
-                  <Link to={`/${result.id}`}>
-                    {result.poster_path === null ? (
-                      <img
-                        src="/src/assets/images/no_image.png"
-                        alt="no image"
-                        className="min-h-[280px] object-contain"
-                      />
-                    ) : (
-                      <img
-                        src={`https://image.tmdb.org/t/p/original/${result.poster_path}`}
-                        alt={result.title}
-                        className="rounded-t-lg min-h-[280px] object-contain"
-                      />
-                    )}
+              // CHECKS IF RESULT IS A MOVIE, TV SHOW OR PERSON. EACH RENDERS DIFFERNTLY AND LINKS TO DIFFERENT ROUTE FOR DETAILS
+              if (result.media_type === "movie") {
+                return (
+                  <div
+                    key={result.id}
+                    className="shadow-md shadow-slate-300 rounded-b-lg hover:shadow-lg flex flex-col justify-evenly">
+                    <Link to={`/${result.id}`}>
+                      {result.poster_path === null ? (
+                        <img
+                          src="/src/assets/images/no_image.png"
+                          alt="no image"
+                          className="min-h-[280px] object-contain"
+                        />
+                      ) : (
+                        <img
+                          src={`https://image.tmdb.org/t/p/original/${result.poster_path}`}
+                          alt={result.title}
+                          className="rounded-t-lg min-h-[280px] object-contain"
+                        />
+                      )}
 
-                    <h3 className="text-center text-base max-sm:text-sm font-montserrat leading-none px-2 py-3">
-                      {result.title || result.name}
-                    </h3>
-                  </Link>
-                </div>
-              );
+                      <h3 className="text-center text-base tracking-wide max-sm:text-sm font-montserrat leading-none px-2 py-3">
+                        {result.title || result.name}
+                      </h3>
+                    </Link>
+                  </div>
+                );
+              } else if (result.media_type === "tv") {
+                return (
+                  <div
+                    key={result.id}
+                    className="shadow-md shadow-slate-300 rounded-b-lg hover:shadow-lg flex flex-col justify-evenly">
+                    <Link to={`/shows/${result.id}`}>
+                      {result.poster_path === null ? (
+                        <img
+                          src="/src/assets/images/no_image.png"
+                          alt="no image"
+                          className="min-h-[280px] object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={`https://image.tmdb.org/t/p/original/${result.poster_path}`}
+                          alt={result.name}
+                          className="rounded-t-lg min-h-[280px] object-contain"
+                        />
+                      )}
+
+                      <h3 className="text-center text-base tracking-wide max-sm:text-sm font-montserrat leading-none px-2 py-3">
+                        {result.name}
+                      </h3>
+                    </Link>
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={result.id}
+                    className="shadow-md shadow-slate-300 rounded-b-lg hover:shadow-lg flex flex-col justify-evenly">
+                    <Link to={`/actors/${result.id}`}>
+                      {result.profile_path === null ? (
+                        <img
+                          src="/src/assets/images/no_image.png"
+                          alt="no image"
+                          className="min-h-[280px] object-contain"
+                        />
+                      ) : (
+                        <img
+                          src={`https://image.tmdb.org/t/p/original/${result.profile_path}`}
+                          alt={result.name}
+                          className="rounded-t-lg min-h-[280px] object-contain"
+                        />
+                      )}
+
+                      <h3 className="text-center text-base tracking-wide max-sm:text-sm font-montserrat leading-none px-2 py-3">
+                        {result.name}
+                      </h3>
+                    </Link>
+                  </div>
+                );
+              }
             })}
           </div>
         </section>

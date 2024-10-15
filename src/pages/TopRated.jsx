@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Card from "../components/Card";
+import MovieCard from "../components/MovieCard";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { useSearchParams } from "react-router-dom";
@@ -7,11 +7,10 @@ import { useSearchParams } from "react-router-dom";
 const TopRated = () => {
   const [loading, setLoading] = useState(false);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
-  // const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
-  useDocumentTitle("Top Rated Movies");
+  useDocumentTitle("Movies | Top Rated");
 
   const fetchTopRatedMovies = async (page) => {
     const topRatedMoviesUrl = `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${page}`;
@@ -68,7 +67,7 @@ const TopRated = () => {
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pb-7">
             {topRatedMovies.map((movie) => {
               return (
-                <Card
+                <MovieCard
                   key={movie.id}
                   movie={movie}
                   id={movie.id}

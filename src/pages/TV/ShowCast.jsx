@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useOutletContext } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
 
-const Cast = () => {
+const ShowCast = () => {
   const { id } = useParams();
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { movie } = useOutletContext();
-  useDocumentTitle(`Cast | ${movie.title}`);
+  const { show } = useOutletContext();
+  useDocumentTitle(`Cast | ${show.name}`);
 
   const fetchCredits = async () => {
-    const creditsUrl = `https://api.themoviedb.org/3/movie/${id}/credits`;
+    const creditsUrl = `https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`;
 
     const options = {
       method: "GET",
@@ -26,6 +26,7 @@ const Cast = () => {
         .then((res) => res.json())
         .then((data) => {
           setCast(data.cast);
+          console.log(data);
         });
     } catch (err) {
       console.log(err);
@@ -85,4 +86,4 @@ const Cast = () => {
   }
 };
 
-export default Cast;
+export default ShowCast;

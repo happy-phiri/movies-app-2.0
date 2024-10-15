@@ -2,14 +2,14 @@ import { useParams, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
 
-const Trailer = () => {
+const ShowTrailer = () => {
   const { id } = useParams();
   const [trailer, setTrailer] = useState("");
   const [loading, setLoading] = useState(false);
-  const { movie } = useOutletContext();
-  useDocumentTitle(`${movie.title} | Trailer`);
+  const { show } = useOutletContext();
+  useDocumentTitle(`Trailer | ${show.name}`);
 
-  const trailerUrl = `https://api.themoviedb.org/3/movie/${id}/videos`;
+  const trailerUrl = `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`;
 
   const options = {
     method: "GET",
@@ -23,18 +23,21 @@ const Trailer = () => {
   const fetchTrailer = async (url) => {
     try {
       setLoading(true);
-      await fetch(url, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setTrailer(
-            data.results.find(
-              (item) =>
-                item.type === "Trailer" ||
-                item.name.includes("Official Trailer")
-            )
-          );
-          console.log(data);
-        });
+      const response = await fetch(url, options);
+      const data = await response.json();
+      if (data.results.length === 1) {
+        // If there's only one result, set the trailer to that item directly
+        setTrailer(data.results[0]);
+      } else {
+        // Otherwise, find a trailer based on type or name
+        const trailerData = data.results.find(
+          (item) =>
+            item.type === "Trailer" ||
+            item.name.includes("Official") ||
+            item.name.includes("Trailer")
+        );
+        setTrailer(trailerData);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -61,8 +64,12 @@ const Trailer = () => {
       </div>
     );
   } else {
-    <h1 className="text-3xl font-montserrat text-black">Trailer not found</h1>;
+    return (
+      <p className="text-base font-montserrat font-light tracking-wide text-black">
+        Sorry, trailer not found
+      </p>
+    );
   }
 };
 
-export default Trailer;
+export default ShowTrailer;

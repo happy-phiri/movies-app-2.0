@@ -20,26 +20,40 @@
         @apply bg-gradient-to-r from-light-blue to-light-green text-transparent bg-clip-text;
     }
     .small-screen-padding {
-        @apply max-desktop:px-8;
+        @apply max-lg:px-8;
     }
-
-    /* .react-multi-carousel-item {
-        width: 300px!important;
-    } */
-
     .react-multi-carousel-item+.react-multi-carousel-item {
         margin-left: 10px;
     }
-    
     li {
         width: fit-content!important;
     }
-    
     li.react-multi-carousel-item {
         width: fit-content;
     }
-
     .react-multi-carousel-list {
         overflow: visible;
+    }
+    /* Define styles for specific tags within the review content */
+    .review-content a {
+        color: blue;
+        /* Customize the link color */
+    }
+
+    .review-content em {
+        font-style: italic;
+    }
+
+    .review-content strong {
+        font-weight: bold;
+        /* Make bold text stand out */
+    }
+
+    .review-content h1,
+    .review-content h2 {
+        font-size: 1.25rem;
+        /* Adjust heading sizes */
+        font-weight: bold;
+        margin-bottom: 0.5rem;
     }
 }

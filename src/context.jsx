@@ -8,17 +8,17 @@ const AppProvider = ({ children }) => {
   const [playingMovies, setPlayingMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [page, setPage] = useState(1);
-  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [popularTvShows, setPopularTvShows] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState(
     JSON.parse(localStorage.getItem("favoriteMovies")) || []
   );
 
-  const playingMoviesUrl = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=`;
+  const playingMoviesUrl = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1`;
   const popularMoviesUrl =
-    "https://api.themoviedb.org/3/movie/popular?language=en-US&page=";
+    "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
   const topRatedMoviesUrl =
-    "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=";
+    "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
+  const popularTvShowsUrl = `https://api.themoviedb.org/3/tv/popular?language=en-US&page=1`;
 
   const options = {
     method: "GET",
@@ -65,6 +65,18 @@ const AppProvider = ({ children }) => {
     setLoading(false);
   };
 
+  const fetchPopularTvShows = async (url) => {
+    try {
+      setLoading(true);
+      await fetch(url, options)
+        .then((res) => res.json())
+        .then((data) => setPopularTvShows(data.results));
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
   // ADD MOVIE TO FAVORITE MOVIES LIST
   const addToFavorites = (movie) => {
     //CHECK IF ALREADY A FAVORITE MOVIE
@@ -91,16 +103,23 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchPlayingMovies(`${playingMoviesUrl}${page}`);
-  }, [page]);
+    fetchPlayingMovies(playingMoviesUrl);
+    fetchPopularMovies(popularMoviesUrl);
+    fetchTopRatedMovies(topRatedMoviesUrl);
+    fetchPopularTvShows(popularTvShowsUrl);
+  }, []);
 
-  useEffect(() => {
-    fetchPopularMovies(`${popularMoviesUrl}${page}`);
-  }, [page]);
+  // useEffect(() => {
+  //   fetchPopularMovies(popularMoviesUrl);
+  // }, []);
 
-  useEffect(() => {
-    fetchTopRatedMovies(`${topRatedMoviesUrl}${page}`);
-  }, [page]);
+  // useEffect(() => {
+  //   fetchTopRatedMovies(topRatedMoviesUrl);
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchPopularTvShows(popularTvShowsUrl);
+  // }, []);
 
   return (
     <AppContext.Provider
@@ -112,8 +131,7 @@ const AppProvider = ({ children }) => {
         addToFavorites,
         favoriteMovies,
         removeFromFavorites,
-        showSearchModal,
-        setShowSearchModal,
+        popularTvShows,
       }}>
       {children}
     </AppContext.Provider>

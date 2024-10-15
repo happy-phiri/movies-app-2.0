@@ -6,8 +6,8 @@ import Button from "./Button";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
 
-const Card = ({
-  movie,
+const ShowCard = ({
+  show,
   id,
   image,
   overview,
@@ -29,7 +29,7 @@ const Card = ({
           <img
             src="/src/assets/images/no-image.svg"
             alt="no image"
-            className="min-h-[360px] object-contain theme-gradient"
+            className="min-h-[360px] object-contain"
           />
         ) : (
           <img
@@ -40,24 +40,26 @@ const Card = ({
         )}
         <div className="opacity-0 hover:opacity-100 duration-700 ease-in-out absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.7)] rounded-lg flex flex-col gap-2 justify-center items-center text-white">
           <p className="font-montserrat text-xs w-[90%] text-center">
-            {`${overview.slice(0, 200)} . . .`}
+            {`${overview.slice(0, 200)} ${
+              overview.length > 200 ? ". . ." : ""
+            }`}
           </p>
 
-          <Link to={`/${id}`} relative="path" className="cursor-pointer">
+          <Link to={`/shows/${id}`} className="cursor-pointer">
             <Button text="Details" />
           </Link>
 
           {isFavorite ? (
             <MdDelete
               className={`text-2xl fixed top-5 right-5 cursor-pointer hover:text-red-700`}
-              onClick={() => removeFromFavorites(movie)}
+              onClick={() => removeFromFavorites(show)}
             />
           ) : (
             <FaHeart
               className={`text-2xl fixed top-5 right-5 cursor-pointer hover:text-[#90cea1] ${
                 isFavorite ? "text-[#90cea1]" : ""
               }`}
-              onClick={() => addToFavorites(movie)}
+              onClick={() => addToFavorites(show)}
             />
           )}
         </div>
@@ -69,7 +71,7 @@ const Card = ({
         </h2>
         <div>
           <p className="font-montserrat font-normal leading-normal text-sm">
-            Release Date: {released}
+            First Aired on: {released}
           </p>
           <p className="font-montserrat font-normal leading-normal flex justify-start items-center gap-2 text-sm">
             <FaStar className="text-yellow-400" />
@@ -83,4 +85,4 @@ const Card = ({
   );
 };
 
-export default Card;
+export default ShowCard;

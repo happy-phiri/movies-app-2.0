@@ -4,16 +4,16 @@ import useDocumentTitle from "../../Hooks/useDocumentTitle";
 import DOMPurify from "dompurify";
 import { RiStarSFill } from "react-icons/ri";
 
-const Reviews = () => {
+const ShowReviews = () => {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { movie } = useOutletContext();
-  useDocumentTitle(`Reviews | ${movie.title}`);
+  const { show } = useOutletContext();
+  useDocumentTitle(`Reviews | ${show.name}`);
   const [expandedReviews, setExpandedReviews] = useState({});
 
   const fetchReviews = async () => {
-    const reviewsUrl = `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`;
+    const reviewsUrl = `https://api.themoviedb.org/3/tv/${id}/reviews?language=en-US&page=1`;
 
     const options = {
       method: "GET",
@@ -151,4 +151,4 @@ const Reviews = () => {
   }
 };
 
-export default Reviews;
+export default ShowReviews;

@@ -3,7 +3,7 @@ import useDocumentTitle from "../../Hooks/useDocumentTitle";
 
 const Details = () => {
   const { movie } = useOutletContext();
-  useDocumentTitle(`${movie.title} | Details`);
+  useDocumentTitle(`Details | ${movie.title}`);
 
   if (movie) {
     // GET GENRES
@@ -31,6 +31,11 @@ const Details = () => {
 
     return (
       <div className="font-montserrat text-black text-sm md:text-base tracking-wide">
+        {/* STATUS */}
+        <p className="font-normal leading-normal">
+          Status: <span className="font-light">{movie.status}</span>
+        </p>
+
         {/* RELEASE DATE */}
         <p className="font-normal leading-normal">
           {movie.status === "Released" ? "Released" : "To be released on"}:{" "}
@@ -69,33 +74,41 @@ const Details = () => {
         {/* BUDGET */}
         <p className="font-normal leading-normal">
           Budget:{" "}
-          <span className="font-light">${movie.budget.toLocaleString()}</span>
+          <span className="font-light">
+            {movie.budget === 0
+              ? "Not available"
+              : `$${movie.budget.toLocaleString()}`}
+          </span>
         </p>
 
         {/* REVENUE */}
         <p className="font-normal leading-normal">
           Revenue:{" "}
-          <span className="font-light">${movie.revenue.toLocaleString()}</span>
+          <span className="font-light">
+            {movie.revenue === 0
+              ? "Not available"
+              : `$${movie.revenue.toLocaleString()}`}
+          </span>
         </p>
 
         {/* PRODUCTION COMPANIES */}
         <div>
           <p className="font-normal leading-normal">Production Companies:</p>
-          <div className="flex gap-3 py-2">
+          <div className="flex gap-4 py-2">
             {movie.production_companies.map((company) => {
               return (
-                <div key={company.id} className="">
+                <div key={company.id} className="max-w-[100px]">
                   {company.logo_path ? (
                     <img
                       src={`https://image.tmdb.org/t/p/original/${company.logo_path}`}
                       alt={company.name}
-                      className="theme-gradient object-contain w-[80px] h-[80px] rounded-full mx-auto"
+                      className="object-contain w-[100px] h-[100px] rounded-lg mx-auto"
                     />
                   ) : (
                     <img
-                      src="/src/assets/images/no_image.png"
+                      src="/src/assets/images/no-image.svg"
                       alt="no image"
-                      className="theme-gradient rounded-full mx-auto w-[80px] h-[80px] object-fit bg-transparent"
+                      className=" mx-auto w-[100px] h-[100px] object-fit bg-transparent"
                     />
                   )}
 

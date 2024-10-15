@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import MovieCard from "../components/MovieCard";
+import ShowCard from "../components/ShowCard";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { useSearchParams } from "react-router-dom";
 
-const Popular = () => {
+const TvShows = () => {
   const [loading, setLoading] = useState(false);
-  const [popularMovies, setPopularMovies] = useState([]);
+  const [tvShows, setTvShows] = useState([]);
+  // const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
-  const [totalPages, setTotalPages] = useState("");
-  useDocumentTitle("Movies | Popular");
+  useDocumentTitle("TV Shows and Series | Top Rated");
 
-  const fetchPopularMovies = async (page) => {
-    const popularMoviesUrl = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`;
+  const fetchTvShows = async (page) => {
+    const popularTvShowsUrl = `https://api.themoviedb.org/3/tv/popular?language=en-US&page=${page}`;
 
     const options = {
       method: "GET",
@@ -26,10 +27,10 @@ const Popular = () => {
 
     try {
       setLoading(true);
-      await fetch(popularMoviesUrl, options)
+      await fetch(popularTvShowsUrl, options)
         .then((res) => res.json())
         .then((data) => {
-          setPopularMovies(data.results);
+          setTvShows(data.results);
           setTotalPages(data.total_pages);
         });
     } catch (err) {
@@ -39,15 +40,17 @@ const Popular = () => {
   };
 
   const handleNextPage = () => {
+    // setPage((prevState) => prevState + 1);
     setSearchParams({ page: page + 1 });
   };
 
   const handlePrevPage = () => {
+    // setPage((prevState) => prevState - 1);
     setSearchParams({ page: page - 1 });
   };
 
   useEffect(() => {
-    fetchPopularMovies(page);
+    fetchTvShows(page);
   }, [page]);
 
   return (
@@ -59,22 +62,22 @@ const Popular = () => {
       ) : (
         <section>
           <h1 className="font-montserrat text-2xl lg:text-4xl mb-4">
-            Popular Movies
+            Popular TV Shows
           </h1>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pb-7">
-            {popularMovies.map((movie) => {
+            {tvShows.map((show) => {
               return (
-                <MovieCard
-                  key={movie.id}
-                  movie={movie}
-                  id={movie.id}
-                  image={movie.poster_path}
-                  title={movie.title}
-                  released={movie.release_date}
-                  voteAverage={movie.vote_average}
-                  voteCount={movie.vote_count}
-                  overview={movie.overview}
+                <ShowCard
+                  key={show.id}
+                  movie={show}
+                  id={show.id}
+                  image={show.poster_path}
+                  title={show.name}
+                  released={show.first_air_date}
+                  voteAverage={show.vote_average}
+                  voteCount={show.vote_count}
+                  overview={show.overview}
                 />
               );
             })}
@@ -106,4 +109,4 @@ const Popular = () => {
   );
 };
 
-export default Popular;
+export default TvShows;
