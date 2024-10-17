@@ -52,7 +52,7 @@ const ShowsSlider = ({ arr }) => {
       infinite={true}
       autoPlaySpeed={1000}
       keyBoardControl={true}
-      transitionDuration={500}
+      transitionDuration={0}
       containerClass="carousel-container"
       itemClass="carousel-item-padding-40-px">
       {elements}

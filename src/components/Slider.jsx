@@ -54,7 +54,7 @@ const Slider = ({ arr }) => {
       autoPlay={false}
       autoPlaySpeed={10000}
       keyBoardControl={true}
-      transitionDuration={300}
+      transitionDuration={0}
       containerClass="carousel-container"
       itemClass="carousel-item-padding-40-px">
       {elements}
