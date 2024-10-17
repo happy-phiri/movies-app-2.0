@@ -1,57 +1,56 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import useDocumentTitle from "../../Hooks/useDocumentTitle";
+import useDocumentTitle from "../Hooks/useDocumentTitle";
 
 const Actor = () => {
   const [loading, setLoading] = useState(false);
   const [actor, setActor] = useState("");
   const [movieCredits, setMovieCredits] = useState([]);
   const { personId } = useParams();
-  const personUrl = `https://api.themoviedb.org/3/person/${personId}`;
-  const movieCreditsUrl = `https://api.themoviedb.org/3/person/${personId}/combined_credits`;
   useDocumentTitle(loading ? "Loading . . ." : actor.name);
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-    },
-  };
-
-  const fetchActor = async (url) => {
-    try {
-      setLoading(true);
-      await fetch(url, options)
-        .then((res) => res.json())
-        .then((data) => setActor(data));
-    } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-    console.log(actor);
-  };
-
-  const fetchMovieCredits = async (url) => {
-    try {
-      setLoading(true);
-      await fetch(url, options)
-        .then((res) => res.json())
-        .then((data) => setMovieCredits(data.cast));
-    } catch (err) {
-      console.log(err);
-    }
-    setLoading(false);
-    console.log(actor);
-  };
-
   useEffect(() => {
-    fetchActor(personUrl);
-  }, []);
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
+      },
+    };
 
-  useEffect(() => {
-    fetchMovieCredits(movieCreditsUrl);
+    const fetchActor = async () => {
+      const personUrl = `https://api.themoviedb.org/3/person/${personId}`;
+      setLoading(true);
+      const res = await fetch(personUrl, options);
+      if (!res) {
+        throw {
+          message: res.status_message,
+          status: res.status_code,
+        };
+      }
+      const data = await res.json();
+      setActor(data);
+      setLoading(false);
+    };
+
+    const fetchMovieCredits = async () => {
+      const movieCreditsUrl = `https://api.themoviedb.org/3/person/${personId}/combined_credits`;
+      setLoading(true);
+      const res = await fetch(movieCreditsUrl, options);
+      if (!res) {
+        throw {
+          message: res.status_message,
+          status: res.status_code,
+        };
+      }
+      const data = await res.json();
+      setMovieCredits(data.cast);
+      setLoading(false);
+    };
+
+    fetchActor();
+    fetchMovieCredits();
   }, []);
 
   const formatDate = (dateString) => {
@@ -89,7 +88,7 @@ const Actor = () => {
     );
   } else {
     return (
-      <main className="pb-10">
+      <main className="mb-16">
         <section className="max-container small-screen-padding pt-28 font-montserrat grid md:grid-cols-6 gap-5 lg:gap-10">
           <div className="md:col-span-2">
             {actor.profile_path !== null ? (

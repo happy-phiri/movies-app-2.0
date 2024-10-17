@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
+import CharacterCard from "../../components/CharacterCard";
 
 const Cast = () => {
   const { id } = useParams();
@@ -20,18 +21,17 @@ const Cast = () => {
           "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
       },
     };
-    try {
-      setLoading(true);
-      await fetch(creditsUrl, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setCast(data.cast);
-        });
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(creditsUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setCast(data.cast);
     setLoading(false);
-    // console.log(credits);
   };
 
   useEffect(() => {
@@ -41,45 +41,23 @@ const Cast = () => {
   if (loading) {
     return (
       <section>
-        <h1 className="text-xl font-montserrat">Loading . . .</h1>
+        <p className="text-base font-montserrat tracking-wide">Loading . . .</p>
       </section>
     );
   } else {
     return (
-      <div className="text-black font-montserrat">
-        <div className="flex gap-3 flex-wrap max-sm:justify-center py-2">
-          {cast.map((actor) => {
-            return (
-              <div
-                key={actor.id}
-                className="w-[140px] p-2 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-200">
-                <Link to={`/actors/${actor.id}`} className="block">
-                  {actor.profile_path === null ? (
-                    <img
-                      src="/src/assets/images/no-image.svg"
-                      alt="no image"
-                      className="object-cover w-[100px] h-[100px] rounded-full mx-auto mb-2"
-                    />
-                  ) : (
-                    <img
-                      src={`https://image.tmdb.org/t/p/original/${actor.profile_path}`}
-                      alt={actor.name}
-                      className="object-cover w-[100px] h-[100px] rounded-full mx-auto mb-2"
-                    />
-                  )}
-                  <div className="text-center mt-1">
-                    <p className="font-medium text-xs text-gray-800">
-                      {actor.name}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      as {actor.character}
-                    </p>
-                  </div>
-                </Link>
-              </div>
-            );
-          })}
-        </div>
+      <div className="flex gap-3 flex-wrap max-sm:justify-center py-2">
+        {cast.map((actor) => {
+          return (
+            <CharacterCard
+              key={actor.id}
+              id={actor.id}
+              image={actor.profile_path}
+              name={actor.name}
+              character={actor.character}
+            />
+          );
+        })}
       </div>
     );
   }

@@ -1,5 +1,6 @@
-import { useOutletContext, Link } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
+import CharacterCard from "../../components/CharacterCard";
 
 const ShowDetails = () => {
   const { show } = useOutletContext();
@@ -30,40 +31,40 @@ const ShowDetails = () => {
     });
 
     return (
-      <div className="font-montserrat text-black text-sm md:text-base tracking-wide">
+      <div className="font-montserrat leading-normal text-black text-sm md:text-base tracking-wide">
         {/* STATUS */}
-        <p className="font-normal leading-normal">
+        <p>
           Status: <span className="font-light">{show.status}</span>
         </p>
 
         {/* RELEASE DATE */}
-        <p className="font-normal leading-normal">
+        <p>
           First Aired on:{" "}
           <span className="font-light">{show.first_air_date}</span>
         </p>
 
         {/* LAST AIR DATE */}
         {show.last_air_date && (
-          <p className="font-normal leading-normal">
+          <p>
             Last Aired on:{" "}
             <span className="font-light">{show.last_air_date}</span>
           </p>
         )}
 
         {/* SEASONS */}
-        <p className="font-normal leading-normal">
+        <p>
           Number of Seasons:{" "}
           <span className="font-light">{show.number_of_seasons}</span>
         </p>
 
         {/* SEASONS */}
-        <p className="font-normal leading-normal">
+        <p>
           Number of Episodes:{" "}
           <span className="font-light">{show.number_of_episodes}</span>
         </p>
 
         {/* GENRES */}
-        <p className="font-normal leading-normal">
+        <p>
           Genres:{" "}
           <span className="font-light">
             {genreElements.reduce((prev, curr) => [prev, ", ", curr])}
@@ -71,7 +72,7 @@ const ShowDetails = () => {
         </p>
 
         {/* LANGUAGES */}
-        <p className="font-normal leading-normal">
+        <p>
           Languages:{" "}
           <span className="font-light">
             {spokenLanguages.reduce((prev, curr) => [prev, ", ", curr])}
@@ -79,7 +80,7 @@ const ShowDetails = () => {
         </p>
 
         {/* COUNTRIES */}
-        <p className="font-normal leading-normal">
+        <p>
           Produced in:{" "}
           <span className="font-light">
             {countries.reduce((prev, curr) => [prev, ", ", curr])}
@@ -87,39 +88,25 @@ const ShowDetails = () => {
         </p>
 
         {/* CREATED BY */}
-        <div>
-          <p>Created by:</p>
-          <div className="flex flex-row flex-wrap gap-3 my-4">
-            {show.created_by.map((person) => (
-              <div
-                key={person.id}
-                className="w-[140px] p-2 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-200">
-                <Link to={`/actors/${person.id}`} className="block">
-                  {person.profile_path === null ? (
-                    <img
-                      src="/src/assets/images/no-image.svg"
-                      alt="no image"
-                      className="object-cover w-[100px] h-[100px] rounded-full mx-auto mb-2"
-                    />
-                  ) : (
-                    <img
-                      src={`https://image.tmdb.org/t/p/original/${person.profile_path}`}
-                      alt={person.name}
-                      className="object-cover w-[100px] h-[100px] rounded-full mx-auto mb-2"
-                    />
-                  )}
-                  <p className="font-medium text-center mt-1 text-xs text-gray-800">
-                    {person.name}
-                  </p>
-                </Link>
-              </div>
-            ))}
+        {show.created_by.length > 0 && (
+          <div>
+            <p>Created by:</p>
+            <div className="flex flex-row flex-wrap gap-3 my-4">
+              {show.created_by.map((person) => (
+                <CharacterCard
+                  key={person.id}
+                  id={person.id}
+                  image={person.profile_path}
+                  name={person.name}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* PRODUCTION COMPANIES */}
         <div>
-          <p className="font-normal leading-normal">Production Companies:</p>
+          <p>Production Companies:</p>
           <div className="flex gap-4 flex-wrap py-2">
             {show.production_companies.map((company) => {
               return (
@@ -151,7 +138,9 @@ const ShowDetails = () => {
   } else {
     return (
       <section>
-        <h1 className="text-xl font-montserrat">Loading . . .</h1>
+        <p className="text-base tracking-wide font-light font-montserrat">
+          Loading . . .
+        </p>
       </section>
     );
   }

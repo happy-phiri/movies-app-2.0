@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
+import useDocumentTitle from "../Hooks/useDocumentTitle";
 
 const PageNotFound = () => {
+  useDocumentTitle("404 | Page not Found");
   return (
     <div className="font-montserrat flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
       <div className="max-container small-screen-padding grid place-items-center">
-        <h1 className="text-9xl font-bold mb-4">404</h1>
+        <h1 className="text-7xl lg:text-9xl font-bold mb-4">404</h1>
         <h2 className="text-2xl md:text-4xl mb-6 max-w-xl text-center">
           Oops! The page you are looking for is not here.
         </h2>

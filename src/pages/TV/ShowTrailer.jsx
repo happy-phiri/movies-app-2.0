@@ -9,43 +9,44 @@ const ShowTrailer = () => {
   const { show } = useOutletContext();
   useDocumentTitle(`Trailer | ${show.name}`);
 
-  const trailerUrl = `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`;
+  const fetchTrailer = async () => {
+    const trailerUrl = `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`;
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-    },
-  };
-
-  const fetchTrailer = async (url) => {
-    try {
-      setLoading(true);
-      const response = await fetch(url, options);
-      const data = await response.json();
-      if (data.results.length === 1) {
-        // If there's only one result, set the trailer to that item directly
-        setTrailer(data.results[0]);
-      } else {
-        // Otherwise, find a trailer based on type or name
-        const trailerData = data.results.find(
-          (item) =>
-            item.type === "Trailer" ||
-            item.name.includes("Official") ||
-            item.name.includes("Trailer")
-        );
-        setTrailer(trailerData);
-      }
-    } catch (err) {
-      console.log(err);
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
+      },
+    };
+    const res = await fetch(trailerUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    if (data.results.length === 1) {
+      // If there's only one result, set the trailer to that item directly
+      setTrailer(data.results[0]);
+    } else {
+      // Otherwise, find a trailer based on type or name
+      const trailerData = data.results.find(
+        (item) =>
+          item.type === "Trailer" ||
+          item.name.includes("Official") ||
+          item.name.includes("Trailer")
+      );
+      setTrailer(trailerData);
+    }
+
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchTrailer(trailerUrl);
+    fetchTrailer();
   }, []);
 
   if (loading) {

@@ -29,16 +29,16 @@ const Show = () => {
         },
       };
 
-      try {
-        setLoading(true);
-        await fetch(movieUrl, options)
-          .then((res) => res.json())
-          .then((data) => setShow(data));
-      } catch (err) {
-        console.log(err);
+      const res = await fetch(movieUrl, options);
+      if (!res) {
+        throw {
+          message: res.status_message,
+          status: res.status_code,
+        };
       }
+      const data = await res.json();
+      setShow(data);
       setLoading(false);
-      console.log(show);
     };
 
     fetchShow();
@@ -54,7 +54,7 @@ const Show = () => {
 
   if (loading) {
     return (
-      <section className="max-container">
+      <section className="max-container mb-16">
         <h1 className="text-3xl font-montserrat small-screen-padding top-0 left-0 pt-24 min-h-dvh">
           Loading . . .
         </h1>
@@ -62,7 +62,7 @@ const Show = () => {
     );
   } else {
     return (
-      <main className="pb-6">
+      <main className="pb-6 mb-16">
         <section className="relative">
           <div
             style={backgroundImage}
@@ -78,8 +78,8 @@ const Show = () => {
 
               <div className="md:col-span-3 self-center">
                 {show && (
-                  <div className=" ont-montserrat mb-3 text-white">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2 tracking-wide">
+                  <div className="font-montserrat mb-3 text-white tracking-wide">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2">
                       {show.name}
                     </h1>
                     <p className="font-light text-lg md:my-2 xl:text-xl leading-normal w-[80%] lg:w-[65%] tracking-wide">

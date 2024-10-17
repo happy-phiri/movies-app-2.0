@@ -24,17 +24,17 @@ const Popular = () => {
       },
     };
 
-    try {
-      setLoading(true);
-      await fetch(popularMoviesUrl, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setPopularMovies(data.results);
-          setTotalPages(data.total_pages);
-        });
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(popularMoviesUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setPopularMovies(data.results);
+    setTotalPages(data.total_pages);
     setLoading(false);
   };
 
@@ -51,11 +51,11 @@ const Popular = () => {
   }, [page]);
 
   return (
-    <div className="max-container small-screen-padding pt-28">
+    <main className="max-container small-screen-padding pt-28 mb-16">
       {loading ? (
-        <h1 className="text-xl font-montserrat small-screen-padding top-0 left-0 min-h-dvh">
+        <p className="text-2xl font-normal font-montserrat small-screen-padding top-0 left-0 min-h-dvh">
           Loading . . .
-        </h1>
+        </p>
       ) : (
         <section>
           <h1 className="font-montserrat text-2xl lg:text-4xl mb-4">
@@ -102,7 +102,7 @@ const Popular = () => {
           </div>
         </section>
       )}
-    </div>
+    </main>
   );
 };
 

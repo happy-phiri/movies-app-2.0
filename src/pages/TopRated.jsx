@@ -24,27 +24,25 @@ const TopRated = () => {
       },
     };
 
-    try {
-      setLoading(true);
-      await fetch(topRatedMoviesUrl, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setTopRatedMovies(data.results);
-          setTotalPages(data.total_pages);
-        });
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(topRatedMoviesUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setTopRatedMovies(data.results);
+    setTotalPages(data.total_pages);
     setLoading(false);
   };
 
   const handleNextPage = () => {
-    // setPage((prevState) => prevState + 1);
     setSearchParams({ page: page + 1 });
   };
 
   const handlePrevPage = () => {
-    // setPage((prevState) => prevState - 1);
     setSearchParams({ page: page - 1 });
   };
 
@@ -53,7 +51,7 @@ const TopRated = () => {
   }, [page]);
 
   return (
-    <div className="max-container small-screen-padding pt-28">
+    <div className="max-container small-screen-padding pt-28 mb-16">
       {loading ? (
         <h1 className="text-xl font-montserrat small-screen-padding top-0 left-0 min-h-dvh">
           Loading . . .

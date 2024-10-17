@@ -7,7 +7,6 @@ import { useSearchParams } from "react-router-dom";
 const TvShows = () => {
   const [loading, setLoading] = useState(false);
   const [tvShows, setTvShows] = useState([]);
-  // const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
@@ -25,27 +24,25 @@ const TvShows = () => {
       },
     };
 
-    try {
-      setLoading(true);
-      await fetch(popularTvShowsUrl, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setTvShows(data.results);
-          setTotalPages(data.total_pages);
-        });
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(popularTvShowsUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setTvShows(data.results);
+    setTotalPages(data.total_pages);
     setLoading(false);
   };
 
   const handleNextPage = () => {
-    // setPage((prevState) => prevState + 1);
     setSearchParams({ page: page + 1 });
   };
 
   const handlePrevPage = () => {
-    // setPage((prevState) => prevState - 1);
     setSearchParams({ page: page - 1 });
   };
 
@@ -56,9 +53,9 @@ const TvShows = () => {
   return (
     <div className="max-container small-screen-padding pt-28">
       {loading ? (
-        <h1 className="text-xl font-montserrat small-screen-padding top-0 left-0 min-h-dvh">
+        <p className="text-xl font-normal font-montserrat small-screen-padding top-0 left-0 min-h-dvh">
           Loading . . .
-        </h1>
+        </p>
       ) : (
         <section>
           <h1 className="font-montserrat text-2xl lg:text-4xl mb-4">

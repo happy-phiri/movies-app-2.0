@@ -17,7 +17,7 @@ const Home = () => {
   useDocumentTitle("Home | Movies, TV Shows & TV Personalities");
 
   return (
-    <main>
+    <main className="mb-16">
       {loading ? (
         <h1 className="text-xl max-container font-montserrat small-screen-padding pt-28 top-0 left-0 min-h-dvh">
           Loading . . .

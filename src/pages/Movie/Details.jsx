@@ -30,25 +30,25 @@ const Details = () => {
     });
 
     return (
-      <div className="font-montserrat text-black text-sm md:text-base tracking-wide">
+      <div className="font-montserrat font-normal leading-normal text-black text-sm md:text-base tracking-wide">
         {/* STATUS */}
-        <p className="font-normal leading-normal">
+        <p>
           Status: <span className="font-light">{movie.status}</span>
         </p>
 
         {/* RELEASE DATE */}
-        <p className="font-normal leading-normal">
+        <p>
           {movie.status === "Released" ? "Released" : "To be released on"}:{" "}
           <span className="font-light">{movie.release_date}</span>
         </p>
 
         {/* RUNTIME */}
-        <p className="font-normal leading-normal">
+        <p>
           Runtime: <span className="font-light">{movie.runtime} minutes</span>
         </p>
 
         {/* GENRES */}
-        <p className="font-normal leading-normal">
+        <p>
           Genres:{" "}
           <span className="font-light">
             {genreElements.reduce((prev, curr) => [prev, ", ", curr])}
@@ -56,7 +56,7 @@ const Details = () => {
         </p>
 
         {/* LANGUAGES */}
-        <p className="font-normal leading-normal">
+        <p>
           Languages:{" "}
           <span className="font-light">
             {spokenLanguages.reduce((prev, curr) => [prev, ", ", curr])}
@@ -64,7 +64,7 @@ const Details = () => {
         </p>
 
         {/* COUNTRIES */}
-        <p className="font-normal leading-normal">
+        <p>
           Produced in:{" "}
           <span className="font-light">
             {countries.reduce((prev, curr) => [prev, ", ", curr])}
@@ -72,7 +72,7 @@ const Details = () => {
         </p>
 
         {/* BUDGET */}
-        <p className="font-normal leading-normal">
+        <p>
           Budget:{" "}
           <span className="font-light">
             {movie.budget === 0
@@ -82,7 +82,7 @@ const Details = () => {
         </p>
 
         {/* REVENUE */}
-        <p className="font-normal leading-normal">
+        <p>
           Revenue:{" "}
           <span className="font-light">
             {movie.revenue === 0
@@ -93,7 +93,7 @@ const Details = () => {
 
         {/* PRODUCTION COMPANIES */}
         <div>
-          <p className="font-normal leading-normal">Production Companies:</p>
+          <p>Production Companies:</p>
           <div className="flex gap-4 py-2">
             {movie.production_companies.map((company) => {
               return (

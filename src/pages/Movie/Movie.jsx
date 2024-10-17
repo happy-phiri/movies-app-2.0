@@ -30,16 +30,16 @@ const Movie = () => {
       },
     };
 
-    try {
-      setLoading(true);
-      await fetch(movieUrl, options)
-        .then((res) => res.json())
-        .then((data) => setMovie(data));
-    } catch (err) {
-      console.log(err);
+    const res = await fetch(movieUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setMovie(data);
     setLoading(false);
-    console.log(movie);
   };
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const Movie = () => {
 
   if (loading) {
     return (
-      <section className="max-container">
+      <section className="max-container mb-16">
         <h1 className="text-3xl font-montserrat small-screen-padding top-0 left-0 pt-24 min-h-dvh">
           Loading . . .
         </h1>
@@ -64,7 +64,7 @@ const Movie = () => {
     );
   } else {
     return (
-      <main className="pb-6">
+      <main className="mb-16">
         <section className="relative">
           <div
             style={backgroundImage}
@@ -80,8 +80,8 @@ const Movie = () => {
 
               <div className="md:col-span-3 self-center">
                 {movie && (
-                  <div className=" ont-montserrat mb-3 text-white">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2 tracking-wide">
+                  <div className="font-montserrat tracking-wide mb-3 text-white">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2 ">
                       {movie.title}
                     </h1>
                     <p className="font-light text-lg md:my-2 xl:text-xl leading-normal w-[80%] lg:w-[65%]">
@@ -167,9 +167,9 @@ const Movie = () => {
             {/* OUTLET FOR OVERVIEW, CAST, TRAILER, DETAILS AND REVIEWS COMPONENTS */}
             <Outlet context={{ movie }} />
 
-            <div className="mt-4">
+            <div className="mt-4 font-montserrat font-normal italic leading-normal text-sm md:w-[80%] md:text-base text-black tracking-wide">
               {movie.imdb_id && movie.homepage ? (
-                <p className="font-montserrat font-normal italic leading-normal text-sm md:w-[80%] md:text-base text-black tracking-wide">
+                <p>
                   Find out more about {movie.title} on{" "}
                   <a
                     href={`https://www.imdb.com/title/${movie.imdb_id}/`}
@@ -182,7 +182,7 @@ const Movie = () => {
                   </a>
                 </p>
               ) : (
-                <p className="font-montserrat font-normal italic leading-normal text-sm md:w-[80%] md:text-base text-black tracking-wide">
+                <p>
                   Find out more about {movie.title} on{" "}
                   <a
                     href={`https://www.imdb.com/title/${movie.imdb_id}/`}

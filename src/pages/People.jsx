@@ -23,19 +23,17 @@ const People = () => {
           "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
       },
     };
-
-    try {
-      setLoading(true);
-      await fetch(peopleUrl, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setPeople(data.results);
-          setTotalPages(data.total_pages);
-          console.log(data);
-        });
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(peopleUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setPeople(data.results);
+    setTotalPages(data.total_pages);
     setLoading(false);
   };
 
@@ -54,14 +52,14 @@ const People = () => {
   if (loading) {
     return (
       <section className="max-container pt-28">
-        <h1 className="text-2xl font-montserrat small-screen-padding">
+        <p className="text-2xl font-normal font-montserrat small-screen-padding">
           Loading . . .
-        </h1>
+        </p>
       </section>
     );
   } else {
     return (
-      <section className="max-container pt-28 font-montserrat small-screen-padding">
+      <section className="max-container pt-28 font-montserrat small-screen-padding mb-16">
         <h1 className="tracking-wider text-2xl lg:text-4xl mb-4">
           Popular People Today
         </h1>

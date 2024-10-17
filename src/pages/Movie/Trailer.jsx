@@ -9,40 +9,38 @@ const Trailer = () => {
   const { movie } = useOutletContext();
   useDocumentTitle(`${movie.title} | Trailer`);
 
-  const trailerUrl = `https://api.themoviedb.org/3/movie/${id}/videos`;
+  const fetchTrailer = async () => {
+    const trailerUrl = `https://api.themoviedb.org/3/movie/${id}/videos`;
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-    },
-  };
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
+      },
+    };
 
-  const fetchTrailer = async (url) => {
-    try {
-      setLoading(true);
-      await fetch(url, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setTrailer(
-            data.results.find(
-              (item) =>
-                item.type === "Trailer" ||
-                item.name.includes("Official Trailer")
-            )
-          );
-          console.log(data);
-        });
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(trailerUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setTrailer(
+      data.results.find(
+        (item) =>
+          item.type === "Trailer" || item.name.includes("Official Trailer")
+      )
+    );
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchTrailer(trailerUrl);
+    fetchTrailer();
   }, []);
 
   if (loading) {

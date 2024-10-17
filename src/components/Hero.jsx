@@ -10,6 +10,7 @@ const Hero = () => {
   const { loading, playingMovies, favoriteMovies } = useGlobalContext();
   const [randomMovieIndex, setRandomMovieIndex] = useState(null);
 
+  // GET A RANDOM MOVIE INDEX FROM THE LIST OF NOW PLAYING MOVIES TO SHOW ON THE HERO SECTION
   useEffect(() => {
     if (!loading && playingMovies.length > 0) {
       const randomIndex = Math.floor(Math.random() * playingMovies.length);
@@ -87,9 +88,9 @@ const Hero = () => {
   } else {
     return (
       <section className="max-container">
-        <h1 className="text-3xl font-montserrat small-screen-padding top-0 left-0 pt-24 min-h-dvh">
+        <p className="text-xl font-montserrat small-screen-padding top-0 left-0 pt-24 min-h-dvh">
           Loading . . .
-        </h1>
+        </p>
       </section>
     );
   }

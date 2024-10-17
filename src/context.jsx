@@ -29,6 +29,7 @@ const AppProvider = ({ children }) => {
     },
   };
 
+  // FETCHES THE NOW PLAYING MOVIES ON THE HOME PAGE
   const fetchPlayingMovies = async (url) => {
     try {
       setLoading(true);
@@ -41,6 +42,7 @@ const AppProvider = ({ children }) => {
     setLoading(false);
   };
 
+  // FETCHES THE POPULAR MOVIES ON THE HOME PAGE
   const fetchPopularMovies = async (url) => {
     try {
       setLoading(true);
@@ -53,6 +55,7 @@ const AppProvider = ({ children }) => {
     setLoading(false);
   };
 
+  // FETCHES THE TOP RATED MOVIES ON THE HOME PAGE
   const fetchTopRatedMovies = async (url) => {
     try {
       setLoading(true);
@@ -65,6 +68,7 @@ const AppProvider = ({ children }) => {
     setLoading(false);
   };
 
+  // FETCHES THE POPULAR TV SHOWS ON THE HOME PAGE
   const fetchPopularTvShows = async (url) => {
     try {
       setLoading(true);
@@ -108,18 +112,6 @@ const AppProvider = ({ children }) => {
     fetchTopRatedMovies(topRatedMoviesUrl);
     fetchPopularTvShows(popularTvShowsUrl);
   }, []);
-
-  // useEffect(() => {
-  //   fetchPopularMovies(popularMoviesUrl);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchTopRatedMovies(topRatedMoviesUrl);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchPopularTvShows(popularTvShowsUrl);
-  // }, []);
 
   return (
     <AppContext.Provider

@@ -29,14 +29,15 @@ const FavoriteMoviesSlider = ({ arr }) => {
   const elements = arr.map((item) => {
     return (
       <div key={item.id} className="w-[150px]">
-        <Link to={`${item.id}`}>
+        {/* CHECKS IF ITEM IS A MOVIE OR SHOW BY LOOKING FOR KEY "RELEASE_DATE. IF IT EXISTS ITS A MOVIE SO WHEN USER CLICKS, IT TAKES THEM TO A MOVIE. SHOWS HAVE "fIRST_AIR_DATE" */}
+        <Link to={"release_date" in item ? `${item.id}` : `/shows/${item.id}`}>
           <img
             src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}
             alt=""
             className="w-[130px] h-auto rounded-lg relative"
           />
           <p className="font-montserrat text-white text-xs mt-1">
-            {item.title}
+            {item.title || item.name}
           </p>
         </Link>
         <MdDelete
@@ -53,17 +54,11 @@ const FavoriteMoviesSlider = ({ arr }) => {
       draggable={true}
       showDots={false}
       responsive={responsive}
-      // ssr={true} // means to render carousel on server-side.
       infinite={false}
-      // autoPlay={this.props.deviceType !== "mobile" ? true : false}
       autoPlaySpeed={1000}
       keyBoardControl={true}
-      // customTransition="all .5"
       transitionDuration={500}
       containerClass="carousel-container"
-      // removeArrowOnDeviceType={["tablet", "mobile"]}
-      // deviceType={this.props.deviceType}
-      // dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px">
       {elements}
     </Carousel>

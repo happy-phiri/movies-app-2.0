@@ -29,19 +29,18 @@ const Search = () => {
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNzUzMTY1OS4zNTc4NzcsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.138AHI3CPUjS-8J3esNHeh9q7UvisDmRqPjRv1YkTgg",
       },
     };
-
-    try {
-      setLoading(true);
-      await fetch(searchUrl, options)
-        .then((res) => res.json())
-        .then((data) => {
-          setResults(data.results);
-          setTotalPages(data.total_pages);
-          setTotalResults(data.total_results);
-        });
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(searchUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setResults(data.results);
+    setTotalPages(data.total_pages);
+    setTotalResults(data.total_results);
     setLoading(false);
   };
 
@@ -76,7 +75,7 @@ const Search = () => {
   };
 
   return (
-    <section className="max-container small-screen-padding pt-28 pb-10">
+    <section className="max-container small-screen-padding pt-28 pb-10 mb-16">
       <form className="mb-5" onSubmit={handleSubmit}>
         <div className="border border-gray-300 rounded-3xl pl-4 pr-1 py-1 flex justify-between gap-2">
           <label htmlFor="search" className="hidden">

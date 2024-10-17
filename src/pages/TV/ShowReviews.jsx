@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
-import DOMPurify from "dompurify";
+import DOMPurify from "dompurify"; //FORMATS HTML IN REVIEW TEXT
 import { RiStarSFill } from "react-icons/ri";
 
 const ShowReviews = () => {
@@ -23,14 +23,15 @@ const ShowReviews = () => {
           "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
       },
     };
-    try {
-      setLoading(true);
-      await fetch(reviewsUrl, options)
-        .then((res) => res.json())
-        .then((data) => setReviews(data.results));
-    } catch (err) {
-      console.log(err);
+    const res = await fetch(reviewsUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setReviews(data.results);
     setLoading(false);
   };
 
@@ -73,7 +74,9 @@ const ShowReviews = () => {
   } else if (reviews.length === 0) {
     return (
       <section>
-        <p className="text-base tracking-wide font-montserrat">No reviews</p>
+        <p className="text-base tracking-wide font-light font-montserrat">
+          No reviews written yet.
+        </p>
       </section>
     );
   } else {

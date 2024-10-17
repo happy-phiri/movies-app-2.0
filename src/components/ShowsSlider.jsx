@@ -47,18 +47,11 @@ const ShowsSlider = ({ arr }) => {
       draggable={true}
       showDots={false}
       responsive={responsive}
-      // ssr={true} // means to render carousel on server-side.
       infinite={true}
-      // autoPlay={this.props.deviceType !== "mobile" ? true : false}
       autoPlaySpeed={1000}
       keyBoardControl={true}
-      // customTransition="all .5"
       transitionDuration={500}
       containerClass="carousel-container"
-      // removeArrowOnDeviceType={["tablet", "mobile"]}
-      // removeArrowOnDeviceType={["desktop"]}
-      // deviceType={this.props.deviceType}
-      // dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px">
       {elements}
     </Carousel>

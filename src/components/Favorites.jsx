@@ -3,6 +3,7 @@ import FavoriteMoviesSlider from "./FavoriteMoviesSlider";
 
 const Favorites = () => {
   const { favoriteMovies } = useGlobalContext();
+  console.log(favoriteMovies);
 
   return (
     <aside className="mt-6">

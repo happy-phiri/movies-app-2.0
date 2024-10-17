@@ -7,36 +7,38 @@ const Similar = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const recommendationsUrl = `https://api.themoviedb.org/3/tv/${id}/recommendations`;
+  const fetchRecommendations = async () => {
+    const recommendationsUrl = `https://api.themoviedb.org/3/tv/${id}/recommendations`;
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-    },
-  };
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
+      },
+    };
 
-  const fetchRecommendations = async (url) => {
-    try {
-      setLoading(true);
-      await fetch(url, options)
-        .then((res) => res.json())
-        .then((data) => setRecommendations(data.results));
-    } catch (err) {
-      console.log(err);
+    setLoading(true);
+    const res = await fetch(recommendationsUrl, options);
+    if (!res) {
+      throw {
+        message: res.status_message,
+        status: res.status_code,
+      };
     }
+    const data = await res.json();
+    setRecommendations(data.results);
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchRecommendations(recommendationsUrl);
-  }, []);
+    fetchRecommendations();
+  }, [id]);
 
   if (loading) {
     return (
-      <section>
+      <section className="mt-10 pt-4 border-t border-t-slate-200">
         <h1 className="text-xl font-montserrat small-screen-padding">
           Loading . . .
         </h1>
