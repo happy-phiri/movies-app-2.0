@@ -2,6 +2,8 @@
 
 HP-MDB is a comprehensive movie and TV show app built using React JS and Tailwind CSS. The app offers users a wide variety of features to explore movies, TV shows, and popular people, using data from [The Movie Database (TMDB) API](https://www.themoviedb.org/).
 
+#Visit the live site [here](https://hp-moviedatabase.netlify.app/)
+
 ## Features
 
 ### Browse Movies and TV Shows
