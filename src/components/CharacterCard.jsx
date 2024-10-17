@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import noImage from "../assets/images/no-image.svg";
 
 const CharacterCard = ({ id, image, name, character }) => {
   return (
@@ -7,7 +8,7 @@ const CharacterCard = ({ id, image, name, character }) => {
       <Link to={`/actors/${id}`} className="block">
         {image === null ? (
           <img
-            src="/src/assets/images/no-image.svg"
+            src={noImage}
             alt="no image"
             className="object-cover w-[100px] h-[100px] rounded-full mx-auto mb-2"
           />

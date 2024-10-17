@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import Button from "./Button";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context";
+import noImage from "../assets/images/no-image.svg";
 
 const ShowCard = ({
   show,
@@ -27,7 +28,7 @@ const ShowCard = ({
       <div className="relative">
         {image === null ? (
           <img
-            src="/src/assets/images/no-image.svg"
+            src={noImage}
             alt="no image"
             className="min-h-[360px] object-contain"
           />

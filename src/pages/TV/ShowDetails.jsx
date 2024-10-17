@@ -1,6 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
 import CharacterCard from "../../components/CharacterCard";
+import noImage from "../../assets/images/no-image.svg";
 
 const ShowDetails = () => {
   const { show } = useOutletContext();
@@ -119,7 +120,7 @@ const ShowDetails = () => {
                     />
                   ) : (
                     <img
-                      src="/src/assets/images/no-image.svg"
+                      src={noImage}
                       alt="no image"
                       className=" mx-auto w-[100px] h-[100px] object-fit bg-transparent"
                     />

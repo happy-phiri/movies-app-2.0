@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { FaStar } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
-
 import { Link, useParams } from "react-router-dom";
+import noImage from "../assets/images/no-image.svg";
 
 const EpisodeCard = ({
   image,
@@ -22,7 +22,7 @@ const EpisodeCard = ({
         <div>
           {image === null ? (
             <img
-              src="/src/assets/images/no-image.svg"
+              src={noImage}
               alt="no image"
               className="max-w-[60%] object-cover mx-auto"
             />

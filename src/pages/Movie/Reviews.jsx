@@ -3,6 +3,7 @@ import { useParams, useOutletContext } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
 import DOMPurify from "dompurify";
 import { RiStarSFill } from "react-icons/ri";
+import noImage from "../../assets/images/no-image.svg";
 
 const Reviews = () => {
   const { id } = useParams();
@@ -93,7 +94,7 @@ const Reviews = () => {
                 className="flex flex-col gap-4 justify-start items-start md:flex-row md:items-center shadow-md p-3 rounded-lg">
                 {review.author_details.avatar_path === null ? (
                   <img
-                    src="/src/assets/images/no-image.svg"
+                    src={noImage}
                     alt="no image"
                     className="object-cover w-[65px] h-[65px] border rounded-full"
                   />

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import noImage from "../assets/images/no-image.svg";
 
 const PersonCard = ({ id, image, name }) => {
   return (
@@ -13,7 +14,7 @@ const PersonCard = ({ id, image, name }) => {
           />
         ) : (
           <img
-            src="/src/assets/images/no_image.png"
+            src={noImage}
             alt="no image"
             className="min-h-[360px] object-contain"
           />

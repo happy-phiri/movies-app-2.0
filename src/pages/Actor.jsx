@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
+import noImage from "../assets/images/no-image.svg";
+import noImagePng from "../assets/images/no_image.png";
 
 const Actor = () => {
   const [loading, setLoading] = useState(false);
@@ -98,7 +100,7 @@ const Actor = () => {
                 className="rounded-lg w-full shadow-xl shadow-slate-500"
               />
             ) : (
-              <img src="/src/assets/images/no-image.svg" />
+              <img src={noImage} />
             )}
           </div>
 
@@ -175,7 +177,7 @@ const Actor = () => {
                     }>
                     {movie.poster_path === null ? (
                       <img
-                        src="/src/assets/images/no_image.png"
+                        src={noImagePng}
                         alt="no image"
                         className="min-h-[360px] object-contain"
                       />

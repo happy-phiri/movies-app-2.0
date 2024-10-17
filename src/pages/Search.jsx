@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
+import noImagePng from "../assets/images/no_image.png";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -141,7 +142,7 @@ const Search = () => {
                     <Link to={`/${result.id}`}>
                       {result.poster_path === null ? (
                         <img
-                          src="/src/assets/images/no_image.png"
+                          src={noImagePng}
                           alt="no image"
                           className="min-h-[280px] object-contain"
                         />
@@ -167,7 +168,7 @@ const Search = () => {
                     <Link to={`/shows/${result.id}`}>
                       {result.poster_path === null ? (
                         <img
-                          src="/src/assets/images/no_image.png"
+                          src={noImagePng}
                           alt="no image"
                           className="min-h-[280px] object-cover"
                         />
@@ -193,7 +194,7 @@ const Search = () => {
                     <Link to={`/actors/${result.id}`}>
                       {result.profile_path === null ? (
                         <img
-                          src="/src/assets/images/no_image.png"
+                          src={noImagePng}
                           alt="no image"
                           className="min-h-[280px] object-contain"
                         />

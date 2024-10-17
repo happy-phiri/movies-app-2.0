@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import Button from "./Button";
 import { Link, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../context";
+import noimage from "../assets/images/no_image.png";
 
 const MovieCard = ({
   movie,
@@ -29,7 +30,7 @@ const MovieCard = ({
       <div className="relative">
         {image === null ? (
           <img
-            src="/src/assets/images/no_image.png"
+            src={noimage}
             alt="no image"
             className="min-h-[360px] object-contain"
           />
