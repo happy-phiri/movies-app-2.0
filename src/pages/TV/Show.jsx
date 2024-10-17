@@ -113,14 +113,14 @@ const Show = () => {
 
         <section className="small-screen-padding mt-6">
           <div className="max-container">
-            <nav className="text-black text-xs xl:text-base tracking-wider font-montserrat flex flex-wrap gap-1 mb-4">
+            <nav className="text-black text-xs xl:text-base tracking-wider font-montserrat flex flex-wrap gap-2 mb-4">
               <NavLink
                 to="."
                 end
                 className={({ isActive }) =>
                   isActive
-                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-1"
-                    : "border px-2 py-1 hover:theme-gradient-text hover:border-[#01b4e4]"
+                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-2"
+                    : "border px-2 py-2 hover:theme-gradient-text hover:border-[#01b4e4]"
                 }>
                 Overview
               </NavLink>
@@ -128,8 +128,8 @@ const Show = () => {
                 to="details"
                 className={({ isActive }) =>
                   isActive
-                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-1"
-                    : "border px-2 py-1 hover:theme-gradient-text hover:border-[#01b4e4]"
+                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-2"
+                    : "border px-2 py-2 hover:theme-gradient-text hover:border-[#01b4e4]"
                 }>
                 Details
               </NavLink>
@@ -137,8 +137,8 @@ const Show = () => {
                 to="seasons"
                 className={({ isActive }) =>
                   isActive
-                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-1"
-                    : "border px-2 py-1 hover:theme-gradient-text hover:border-[#01b4e4]"
+                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-2"
+                    : "border px-2 py-2 hover:theme-gradient-text hover:border-[#01b4e4]"
                 }>
                 Seasons
               </NavLink>
@@ -146,8 +146,8 @@ const Show = () => {
                 to="trailer"
                 className={({ isActive }) =>
                   isActive
-                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-1"
-                    : "border px-2 py-1 hover:theme-gradient-text hover:border-[#01b4e4]"
+                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-2"
+                    : "border px-2 py-2 hover:theme-gradient-text hover:border-[#01b4e4]"
                 }>
                 Trailer
               </NavLink>
@@ -155,8 +155,8 @@ const Show = () => {
                 to="cast"
                 className={({ isActive }) =>
                   isActive
-                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-1"
-                    : "border px-2 py-1 hover:theme-gradient-text hover:border-[#01b4e4]"
+                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-2"
+                    : "border px-2 py-2 hover:theme-gradient-text hover:border-[#01b4e4]"
                 }>
                 Cast
               </NavLink>
@@ -164,8 +164,8 @@ const Show = () => {
                 to="reviews"
                 className={({ isActive }) =>
                   isActive
-                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-1"
-                    : "border px-2 py-1 hover:theme-gradient-text hover:border-[#01b4e4]"
+                    ? "border border-opacity-50 border-[#01b4e4] theme-gradient-text px-2 py-2"
+                    : "border px-2 py-2 hover:theme-gradient-text hover:border-[#01b4e4]"
                 }>
                 Reviews
               </NavLink>
