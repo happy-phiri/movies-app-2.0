@@ -84,7 +84,7 @@ const Movie = () => {
                     <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-2 ">
                       {movie.title}
                     </h1>
-                    <p className="font-light text-lg md:my-2 xl:text-xl leading-normal w-[80%] lg:w-[65%]">
+                    <p className="font-light text-lg md:my-2 xl:text-xl leading-normal w-[80%] ">
                       {movie.tagline}
                     </p>
                     <p className="font-light leading-normal flex justify-start items-center gap-2 text-sm xl:text-base mb-4">

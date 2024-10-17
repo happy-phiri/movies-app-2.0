@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="w-full py-4 small-screen-padding shadow-md z-40 bg-[rgba(0,0,0,0.6)] absolute">
+    <nav className="w-full py-5 small-screen-padding shadow-md z-40 bg-[rgba(0,0,0,0.6)] absolute">
       <div className="max-container flex justify-between items-center">
         <NavLink to="/" end>
           <img src={logo} alt="tmdb logo" width={100} height={100} />
