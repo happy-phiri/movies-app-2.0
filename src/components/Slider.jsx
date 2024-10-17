@@ -48,6 +48,7 @@ const Slider = ({ arr }) => {
       showDots={false}
       responsive={responsive}
       centerMode={true}
+      removeArrowOnDeviceType={["tablet", "mobile"]}
       // ssr={true} // means to render carousel on server-side.
       infinite={true}
       autoPlaySpeed={1000}

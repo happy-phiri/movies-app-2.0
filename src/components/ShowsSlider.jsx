@@ -48,6 +48,7 @@ const ShowsSlider = ({ arr }) => {
       showDots={false}
       responsive={responsive}
       centerMode={true}
+      removeArrowOnDeviceType={["tablet", "mobile"]}
       infinite={true}
       autoPlaySpeed={1000}
       keyBoardControl={true}
