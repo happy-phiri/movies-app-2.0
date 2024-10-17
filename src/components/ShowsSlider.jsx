@@ -47,6 +47,7 @@ const ShowsSlider = ({ arr }) => {
       draggable={true}
       showDots={false}
       responsive={responsive}
+      centerMode={true}
       infinite={true}
       autoPlaySpeed={1000}
       keyBoardControl={true}

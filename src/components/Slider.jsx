@@ -47,6 +47,7 @@ const Slider = ({ arr }) => {
       draggable={true}
       showDots={false}
       responsive={responsive}
+      centerMode={true}
       // ssr={true} // means to render carousel on server-side.
       infinite={true}
       autoPlaySpeed={1000}
