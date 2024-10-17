@@ -51,9 +51,10 @@ const Slider = ({ arr }) => {
       removeArrowOnDeviceType={["tablet", "mobile"]}
       // ssr={true} // means to render carousel on server-side.
       infinite={true}
-      autoPlaySpeed={1000}
+      autoPlay={false}
+      autoPlaySpeed={10000}
       keyBoardControl={true}
-      transitionDuration={500}
+      transitionDuration={300}
       containerClass="carousel-container"
       itemClass="carousel-item-padding-40-px">
       {elements}
