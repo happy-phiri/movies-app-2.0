@@ -54,7 +54,7 @@ const Episode = () => {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
-    backgroundAttachment: "fixed",
+    // backgroundAttachment: "fixed",
   };
 
   if (loading) {

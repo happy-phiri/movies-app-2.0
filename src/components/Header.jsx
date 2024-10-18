@@ -23,7 +23,7 @@ const Header = () => {
           className={`font-montserrat ${
             toggleNav
               ? "w-full"
-              : "max-md:w-0 max-md:overflow-hidden max-md:duration-0"
+              : "max-md:w-0 max-md:overflow-hidden max-md:duration-500"
           } duration-500 flex pt-40 md:p-0 flex-col md:flex-row items-center justify-start gap-9 md:justify-end md:gap-5 h-dvh md:h-full md:w-full md:relative text-white md:text-black bg-[rgba(0,0,0,0.8)] md:bg-inherit absolute top-0 right-0`}>
           <NavLink
             to="now-playing"
@@ -80,8 +80,15 @@ const Header = () => {
             People
           </NavLink>
 
-          <NavLink to="search">
-            <BsSearch className="text-xl hover:scale-105 duration-300 font-light text-white" />
+          <NavLink
+            to="search"
+            onClick={() => setToggleNav(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "text-light-blue font-semibold"
+                : "hover:theme-gradient-text font-light text-white"
+            }>
+            <BsSearch className="text-xl hover:scale-105 duration-300 font-light" />
           </NavLink>
         </div>
 
