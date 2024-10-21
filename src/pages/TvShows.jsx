@@ -51,7 +51,7 @@ const TvShows = () => {
   }, [page]);
 
   return (
-    <div className="max-container small-screen-padding pt-28">
+    <div className="max-container small-screen-padding pt-28 mb-16">
       {loading ? (
         <p className="text-xl font-normal font-montserrat small-screen-padding top-0 left-0 min-h-dvh">
           Loading . . .
