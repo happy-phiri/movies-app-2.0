@@ -28,7 +28,9 @@ const Home = () => {
           <div className="mt-5 max-container small-screen-padding font-montserrat tracking-wide">
             <div>
               <div className="flex justify-between items-center flex-nowrap">
-                <h2 className="text-2xl max-sm:text-xl py-5">Now Playing</h2>
+                <h2 className="text-2xl font-medium max-sm:text-xl py-5">
+                  Now Playing
+                </h2>
                 <Link to="now-playing">
                   <button className="flex flex-row flex-nowrap gap-2 items-center hover:text-light-green">
                     More <FaChevronRight />
@@ -40,7 +42,9 @@ const Home = () => {
 
             <div className="mt-5">
               <div className="flex justify-between items-center flex-nowrap">
-                <h2 className="text-2xl max-sm:text-xl py-5">Popular Movies</h2>
+                <h2 className="text-2xl max-sm:text-xl font-medium py-5">
+                  Popular Movies
+                </h2>
                 <Link to="popular">
                   <button className="flex flex-row flex-nowrap gap-2 items-center hover:text-light-green">
                     More <FaChevronRight />
@@ -52,7 +56,7 @@ const Home = () => {
 
             <div className="mt-5">
               <div className="flex justify-between items-center flex-nowrap">
-                <h2 className="text-2xl max-sm:text-xl py-5">
+                <h2 className="text-2xl max-sm:text-xl font-medium py-5">
                   Top Rated Movies
                 </h2>
                 <Link to="top-rated">
@@ -66,7 +70,7 @@ const Home = () => {
 
             <div className="mt-5">
               <div className="flex justify-between items-center flex-nowrap">
-                <h2 className="text-2xl max-sm:text-xl py-5">
+                <h2 className="text-2xl max-sm:text-xl font-medium py-5">
                   Popular TV Shows
                 </h2>
                 <Link to="shows">

@@ -161,8 +161,10 @@ const Actor = () => {
           </div>
         </section>
 
-        <section className="max-container small-screen-padding font-montserrat mt-4 md:mt-7">
-          <h2 className="text-2xl mb-3">Film and TV Show Appearances</h2>
+        <section className="max-container small-screen-padding font-montserrat mt-4 md:mt-12">
+          <h2 className="font-montserrat font-medium text-2xl mb-4 tracking-wide">
+            Film and TV Show Appearances
+          </h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {movieCredits.map((movie) => {
               return (

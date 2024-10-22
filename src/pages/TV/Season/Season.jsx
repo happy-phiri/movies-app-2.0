@@ -110,7 +110,7 @@ const Season = () => {
           </div>
         </section>
         <section className="max-container small-screen-padding mt-7">
-          <h2 className="font-montserrat text-2xl mb-2 tracking-wide">
+          <h2 className="font-montserrat font-medium text-2xl mb-2 tracking-wide">
             Episodes
           </h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

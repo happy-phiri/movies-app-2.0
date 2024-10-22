@@ -54,9 +54,9 @@ const Show = () => {
   if (loading) {
     return (
       <section className="max-container mb-16">
-        <h1 className="text-3xl font-montserrat small-screen-padding top-0 left-0 pt-24 min-h-dvh">
+        <p className="text-xl font-montserrat small-screen-padding top-0 left-0 pt-24 min-h-dvh">
           Loading . . .
-        </h1>
+        </p>
       </section>
     );
   } else {
