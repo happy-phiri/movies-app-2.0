@@ -83,9 +83,9 @@ const Actor = () => {
   if (loading) {
     return (
       <section className="max-container">
-        <h1 className="text-xl md:text-2xl font-montserrat small-screen-padding pt-28">
+        <p className="text-xl font-montserrat tracking-wide small-screen-padding pt-28">
           Loading . . .
-        </h1>
+        </p>
       </section>
     );
   } else {
