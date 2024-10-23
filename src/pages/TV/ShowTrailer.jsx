@@ -1,61 +1,33 @@
-import { useParams, useOutletContext } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useOutletContext, useLoaderData } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
+import { fetchTvShowTrailer } from "../../utils/api";
+
+export const loader = async ({ params }) => {
+  const { id } = params;
+  return fetchTvShowTrailer(id);
+};
 
 const ShowTrailer = () => {
-  const { id } = useParams();
-  const [trailer, setTrailer] = useState("");
-  const [loading, setLoading] = useState(false);
+  const data = useLoaderData();
+  let trailer;
+  if (data.results.length > 1) {
+    trailer = data.results.find(
+      (item) =>
+        item.type === "trailer" ||
+        item.type === "clip" ||
+        item.name.includes("Official") ||
+        item.name.includes("Trailer")
+    );
+  } else if (data.results.length === 1) {
+    trailer = data.results[0];
+  } else {
+    trailer = null;
+  }
+
   const { show } = useOutletContext();
   useDocumentTitle(`Trailer | ${show.name}`);
 
-  const fetchTrailer = async () => {
-    const trailerUrl = `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-      },
-    };
-    const res = await fetch(trailerUrl, options);
-    if (!res) {
-      throw {
-        message: res.status_message,
-        status: res.status_code,
-      };
-    }
-    const data = await res.json();
-    if (data.results.length === 1) {
-      // If there's only one result, set the trailer to that item directly
-      setTrailer(data.results[0]);
-    } else {
-      // Otherwise, find a trailer based on type or name
-      const trailerData = data.results.find(
-        (item) =>
-          item.type === "Trailer" ||
-          item.name.includes("Official") ||
-          item.name.includes("Trailer")
-      );
-      setTrailer(trailerData);
-    }
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchTrailer();
-  }, []);
-
-  if (loading) {
-    return (
-      <section>
-        <h1 className="text-xl font-montserrat">Loading . . .</h1>
-      </section>
-    );
-  } else if (trailer) {
+  if (trailer) {
     return (
       <div className="relative overflow-hidden w-full pt-[56.25%]">
         <iframe

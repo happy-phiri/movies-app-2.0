@@ -1,44 +1,21 @@
-import { useEffect, useState } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useState } from "react";
+import { useOutletContext, useLoaderData } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
 import DOMPurify from "dompurify"; //FORMATS HTML IN REVIEW TEXT
 import { RiStarSFill } from "react-icons/ri";
 import noImage from "../../assets/images/no-image.svg";
+import { fetchTvShowReviews } from "../../utils/api";
+
+export const loader = async ({ params }) => {
+  const { id } = params;
+  return fetchTvShowReviews(id);
+};
 
 const ShowReviews = () => {
-  const { id } = useParams();
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const reviews = useLoaderData();
   const { show } = useOutletContext();
   useDocumentTitle(`Reviews | ${show.name}`);
   const [expandedReviews, setExpandedReviews] = useState({});
-
-  const fetchReviews = async () => {
-    const reviewsUrl = `https://api.themoviedb.org/3/tv/${id}/reviews?language=en-US&page=1`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-      },
-    };
-    const res = await fetch(reviewsUrl, options);
-    if (!res) {
-      throw {
-        message: res.status_message,
-        status: res.status_code,
-      };
-    }
-    const data = await res.json();
-    setReviews(data.results);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchReviews();
-  }, []);
 
   const formatDate = (data) => {
     const date = new Date(data);
@@ -66,13 +43,7 @@ const ShowReviews = () => {
     }));
   };
 
-  if (loading) {
-    return (
-      <section>
-        <h1 className="text-xl font-montserrat">Loading . . .</h1>
-      </section>
-    );
-  } else if (reviews.length === 0) {
+  if (reviews.length === 0) {
     return (
       <section>
         <p className="text-base tracking-wide font-light font-montserrat">

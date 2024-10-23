@@ -2,7 +2,7 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { MdDelete } from "react-icons/md";
-import { useGlobalContext } from "../context";
+import { useGlobalContext } from "../../context";
 import { Link } from "react-router-dom";
 
 const FavoriteMoviesSlider = ({ arr }) => {

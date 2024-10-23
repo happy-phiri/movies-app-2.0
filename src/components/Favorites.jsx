@@ -1,9 +1,8 @@
 import { useGlobalContext } from "../context";
-import FavoriteMoviesSlider from "./FavoriteMoviesSlider";
+import FavoriteMoviesSlider from "./sliders/FavoriteMoviesSlider";
 
 const Favorites = () => {
   const { favoriteMovies } = useGlobalContext();
-  console.log(favoriteMovies);
 
   return (
     <aside className="mt-6">

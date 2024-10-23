@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import ShowCard from "./ShowCard";
+import MovieCard from "../cards/MovieCard";
 
-const ShowsSlider = ({ arr }) => {
+const Slider = ({ arr }) => {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -25,14 +25,14 @@ const ShowsSlider = ({ arr }) => {
   const elements = arr.map((item) => {
     return (
       <div key={item.id} className="w-[300px]">
-        <ShowCard
+        <MovieCard
           className="react-multi-carousel-item react-multi-carousel-list "
           key={item.id}
-          show={item}
+          movie={item}
           id={item.id}
           image={item.poster_path}
-          title={item.name}
-          released={item.first_air_date}
+          title={item.title}
+          released={item.release_date}
           voteAverage={item.vote_average}
           voteCount={item.vote_count}
           overview={item.overview}
@@ -49,8 +49,10 @@ const ShowsSlider = ({ arr }) => {
       responsive={responsive}
       centerMode={true}
       removeArrowOnDeviceType={["tablet", "mobile"]}
+      // ssr={true} // means to render carousel on server-side.
       infinite={true}
-      autoPlaySpeed={1000}
+      autoPlay={false}
+      autoPlaySpeed={10000}
       keyBoardControl={true}
       transitionDuration={0}
       containerClass="carousel-container"
@@ -60,4 +62,4 @@ const ShowsSlider = ({ arr }) => {
   );
 };
 
-export default ShowsSlider;
+export default Slider;

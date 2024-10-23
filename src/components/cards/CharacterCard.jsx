@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import noImage from "../assets/images/no-image.svg";
+import noImage from "../../assets/images/no-image.svg";
 
 const CharacterCard = ({ id, image, name, character }) => {
   return (

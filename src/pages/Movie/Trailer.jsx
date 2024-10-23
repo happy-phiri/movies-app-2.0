@@ -1,55 +1,28 @@
-import { useParams, useOutletContext } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
+import { fetchMovieTrailer, fetchMovie } from "../../utils/api";
+
+export const loader = async ({ params }) => {
+  const { id } = params;
+  const [movie, trailer] = await Promise.all([
+    fetchMovie(id),
+    fetchMovieTrailer(id),
+  ]);
+  return {
+    movie: movie,
+    trailer: trailer.results.find(
+      (item) =>
+        item.type === "Trailer" || item.name.includes("Official Trailer")
+    ),
+  };
+};
 
 const Trailer = () => {
-  const { id } = useParams();
-  const [trailer, setTrailer] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { movie } = useOutletContext();
+  const { movie, trailer } = useLoaderData();
+
   useDocumentTitle(`${movie.title} | Trailer`);
 
-  const fetchTrailer = async () => {
-    const trailerUrl = `https://api.themoviedb.org/3/movie/${id}/videos`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-      },
-    };
-
-    setLoading(true);
-    const res = await fetch(trailerUrl, options);
-    if (!res) {
-      throw {
-        message: res.status_message,
-        status: res.status_code,
-      };
-    }
-    const data = await res.json();
-    setTrailer(
-      data.results.find(
-        (item) =>
-          item.type === "Trailer" || item.name.includes("Official Trailer")
-      )
-    );
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchTrailer();
-  }, []);
-
-  if (loading) {
-    return (
-      <section>
-        <h1 className="text-xl font-montserrat">Loading . . .</h1>
-      </section>
-    );
-  } else if (trailer) {
+  if (trailer) {
     return (
       <div className="relative overflow-hidden w-full pt-[56.25%]">
         <iframe
@@ -59,7 +32,9 @@ const Trailer = () => {
       </div>
     );
   } else {
-    <h1 className="text-3xl font-montserrat text-black">Trailer not found</h1>;
+    <p className="text-xl tracking-wide font-montserrat text-black">
+      Trailer not found
+    </p>;
   }
 };
 

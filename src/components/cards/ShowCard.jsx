@@ -2,13 +2,13 @@
 import { GoDotFill } from "react-icons/go";
 import { FaStar, FaHeart } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import Button from "./Button";
-import { Link, useLocation } from "react-router-dom";
-import { useGlobalContext } from "../context";
-import noimage from "../assets/images/no_image.png";
+import Button from "../Button";
+import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../context";
+import noImage from "../../assets/images/no-image.svg";
 
-const MovieCard = ({
-  movie,
+const ShowCard = ({
+  show,
   id,
   image,
   overview,
@@ -20,8 +20,6 @@ const MovieCard = ({
   const { addToFavorites, removeFromFavorites, favoriteMovies } =
     useGlobalContext();
 
-  const { pathname } = useLocation();
-
   // CHECK IF MOVIE HAS BEEN ADDED TO FAVORITES LIST
   const isFavorite = favoriteMovies.find((movie) => movie.id === id);
 
@@ -30,7 +28,7 @@ const MovieCard = ({
       <div className="relative">
         {image === null ? (
           <img
-            src={noimage}
+            src={noImage}
             alt="no image"
             className="min-h-[360px] object-contain"
           />
@@ -48,24 +46,21 @@ const MovieCard = ({
             }`}
           </p>
 
-          <Link
-            to={pathname.includes("show") ? `/show/${id}` : `/${id}`}
-            relative="path"
-            className="cursor-pointer">
+          <Link to={`/shows/${id}`} className="cursor-pointer">
             <Button text="Details" />
           </Link>
 
           {isFavorite ? (
             <MdDelete
               className={`text-2xl fixed top-5 right-5 cursor-pointer hover:text-red-700`}
-              onClick={() => removeFromFavorites(movie)}
+              onClick={() => removeFromFavorites(show)}
             />
           ) : (
             <FaHeart
               className={`text-2xl fixed top-5 right-5 cursor-pointer hover:text-[#90cea1] ${
                 isFavorite ? "text-[#90cea1]" : ""
               }`}
-              onClick={() => addToFavorites(movie)}
+              onClick={() => addToFavorites(show)}
             />
           )}
         </div>
@@ -77,7 +72,7 @@ const MovieCard = ({
         </h2>
         <div>
           <p className="font-montserrat font-normal leading-normal text-sm">
-            Release Date: {released}
+            First Aired on: {released}
           </p>
           <p className="font-montserrat font-normal leading-normal flex justify-start items-center gap-2 text-sm">
             <FaStar className="text-yellow-400" />
@@ -91,4 +86,4 @@ const MovieCard = ({
   );
 };
 
-export default MovieCard;
+export default ShowCard;

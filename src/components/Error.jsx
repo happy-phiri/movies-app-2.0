@@ -2,6 +2,7 @@ import { useRouteError } from "react-router-dom";
 
 const Error = () => {
   const errorData = useRouteError();
+  console.log(`Error Mesaage ${errorData}`);
 
   return (
     <div className="font-montserrat bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-md mx-auto mt-24">
@@ -10,7 +11,7 @@ const Error = () => {
         {errorData.status ? (
           <>
             <span className="font-semibold">{errorData.status} - </span>
-            {errorData.statusText || errorData.message}
+            {errorData.status || errorData.message}
           </>
         ) : (
           "An unexpected error occurred."

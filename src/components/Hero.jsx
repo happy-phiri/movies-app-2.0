@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useGlobalContext } from "../context";
 import { FaStar } from "react-icons/fa";
@@ -6,19 +7,19 @@ import Button from "./Button";
 import { Link } from "react-router-dom";
 import Favorites from "./Favorites";
 
-const Hero = () => {
-  const { loading, playingMovies, favoriteMovies } = useGlobalContext();
+const Hero = ({ playingMovies }) => {
+  const { favoriteMovies } = useGlobalContext();
   const [randomMovieIndex, setRandomMovieIndex] = useState(null);
 
   // GET A RANDOM MOVIE INDEX FROM THE LIST OF NOW PLAYING MOVIES TO SHOW ON THE HERO SECTION
   useEffect(() => {
-    if (!loading && playingMovies.length > 0) {
+    if (playingMovies.length > 0) {
       const randomIndex = Math.floor(Math.random() * playingMovies.length);
-      setRandomMovieIndex(randomIndex); // Set the random movie once
+      setRandomMovieIndex(randomIndex);
     }
-  }, [loading, playingMovies]); // Runs only when loading or playingMovies changes
+  }, []);
 
-  if (!loading && playingMovies.length > 0 && randomMovieIndex !== null) {
+  if (playingMovies.length > 0 && randomMovieIndex !== null) {
     const randomMovie = playingMovies[randomMovieIndex];
 
     const backgroundImage = {
@@ -82,14 +83,6 @@ const Hero = () => {
             <Favorites />
           </div>
         )}
-      </section>
-    );
-  } else {
-    return (
-      <section className="max-container">
-        <p className="text-xl font-montserrat small-screen-padding top-0 left-0 pt-24 min-h-dvh">
-          Loading . . .
-        </p>
       </section>
     );
   }

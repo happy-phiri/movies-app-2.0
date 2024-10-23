@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
-import SeasonCard from "../../components/SeasonCard";
+import SeasonCard from "../../components/cards/SeasonCard";
 
 const Seasons = () => {
   const { show } = useOutletContext();

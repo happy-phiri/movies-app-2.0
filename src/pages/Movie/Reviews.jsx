@@ -1,45 +1,27 @@
-import { useEffect, useState } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import useDocumentTitle from "../../Hooks/useDocumentTitle";
 import DOMPurify from "dompurify";
 import { RiStarSFill } from "react-icons/ri";
 import noImage from "../../assets/images/no-image.svg";
+import { fetchMovie, fetchMovieReviews } from "../../utils/api.js";
+
+export const loader = async ({ params }) => {
+  const { id } = params;
+  const [movie, reviews] = await Promise.all([
+    fetchMovie(id),
+    fetchMovieReviews(id),
+  ]);
+  return {
+    movie: movie,
+    reviews: reviews,
+  };
+};
 
 const Reviews = () => {
-  const { id } = useParams();
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { movie } = useOutletContext();
+  const { movie, reviews } = useLoaderData();
   useDocumentTitle(`Reviews | ${movie.title}`);
   const [expandedReviews, setExpandedReviews] = useState({});
-
-  const fetchReviews = async () => {
-    const reviewsUrl = `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZGU1OWQ1MGEzYTdhYjhiYmEyOWZlOTBmYzIzOGI0ZiIsIm5iZiI6MTcyNDkyMzMyMy41OTE0MjgsInN1YiI6IjYxNmZiYjYwYmYwOWQxMDA2NDNlMmM5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PHErdJsQNMVwzlYgQXixTuN0pgmYTd6Uo_ElbeYKxwM",
-      },
-    };
-    setLoading(true);
-    const res = await fetch(reviewsUrl, options);
-    if (!res) {
-      throw {
-        message: res.status_message,
-        status: res.status_code,
-      };
-    }
-    const data = await res.json();
-    setReviews(data.results);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchReviews();
-  }, []);
 
   const formatDate = (data) => {
     const date = new Date(data);
@@ -67,13 +49,7 @@ const Reviews = () => {
     }));
   };
 
-  if (loading) {
-    return (
-      <section>
-        <h1 className="text-xl font-montserrat">Loading . . .</h1>
-      </section>
-    );
-  } else if (reviews.length === 0) {
+  if (reviews.length === 0) {
     return (
       <section>
         <p className="text-base tracking-wide font-montserrat">No reviews</p>

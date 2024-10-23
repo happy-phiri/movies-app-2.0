@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { FaStar } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import noImage from "../assets/images/no-image.svg";
+import noImage from "../../assets/images/no-image.svg";
 
 const SeasonCard = ({
   image,

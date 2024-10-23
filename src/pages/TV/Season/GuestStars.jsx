@@ -1,6 +1,6 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import useDocumentTitle from "../../../Hooks/useDocumentTitle";
-import CharacterCard from "../../../components/CharacterCard";
+import CharacterCard from "../../../components/cards/CharacterCard";
 
 const GuestStars = () => {
   const { episodeNumber, seasonNumber } = useParams();

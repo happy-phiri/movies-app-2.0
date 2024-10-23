@@ -2,7 +2,7 @@
 import { FaStar } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { Link, useParams } from "react-router-dom";
-import noImage from "../assets/images/no-image.svg";
+import noImage from "../../assets/images/no-image.svg";
 
 const EpisodeCard = ({
   image,
