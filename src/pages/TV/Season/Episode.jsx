@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import useDocumentTitle from "../../../Hooks/useDocumentTitle";
 import { fetchTvShow, fetchEpisode } from "../../../utils/api";
+import useScrollToTop from "../../../Hooks/useScrollToTop";
 
 export const loader = async ({ params }) => {
   const { id, seasonNumber, episodeNumber } = params;
@@ -18,11 +19,11 @@ export const loader = async ({ params }) => {
 
 const Episode = () => {
   const { show, episode } = useLoaderData();
-
   const { seasonNumber, episodeNumber } = useParams();
   useDocumentTitle(
     show && `${show.name} | Season ${seasonNumber} | Episode ${episodeNumber}`
   );
+  useScrollToTop(null);
 
   const backgroundImage = {
     backgroundImage: `url(https://image.tmdb.org/t/p/original/${show.backdrop_path})`,

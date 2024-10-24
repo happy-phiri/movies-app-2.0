@@ -3,6 +3,7 @@ import useDocumentTitle from "../Hooks/useDocumentTitle";
 import noImage from "../assets/images/no-image.svg";
 import noImagePng from "../assets/images/no_image.png";
 import { fetchActor, fetchActorMovieAppearances } from "../utils/api";
+import useScrollToTop from "../Hooks/useScrollToTop";
 
 export const loader = async ({ params }) => {
   const { personId } = params;
@@ -18,7 +19,8 @@ export const loader = async ({ params }) => {
 
 const Actor = () => {
   const { actor, movieCredits } = useLoaderData();
-  useDocumentTitle(actor.name);
+  useDocumentTitle(`People | ${actor.name}`);
+  useScrollToTop(null);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

@@ -1,10 +1,11 @@
-import { NavLink, Outlet, useLoaderData } from "react-router-dom";
+import { NavLink, Outlet, useLoaderData, useParams } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
 import { FaStar } from "react-icons/fa";
 import Button from "../../components/Button";
 import Similar from "./Similar";
 import { useGlobalContext } from "../../context";
 import { fetchTvShow, fetchShowRecommendations } from "../../utils/api";
+import useScrollToTop from "../../Hooks/useScrollToTop";
 
 export const loader = async ({ params }) => {
   const { id } = params;
@@ -22,6 +23,8 @@ const Show = () => {
   const { show, recommendations } = useLoaderData();
   const { addToFavorites, removeFromFavorites, favoriteMovies } =
     useGlobalContext();
+  const { id } = useParams();
+  useScrollToTop(id);
 
   // CHECK IF SHOW HAS BEEN ADDED TO FAVORITES LIST
   const isFavorite = favoriteMovies.find((favMovie) => favMovie.id === show.id);

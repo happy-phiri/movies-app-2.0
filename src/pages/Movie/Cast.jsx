@@ -19,6 +19,15 @@ const Cast = () => {
   const { movie, cast } = useLoaderData();
   useDocumentTitle(`Cast | ${movie.title}`);
 
+  if (cast.length === 0) {
+    return (
+      <section>
+        <p className="text-base tracking-wide font-montserrat">
+          Cast not found
+        </p>
+      </section>
+    );
+  }
   return (
     <div className="flex gap-3 flex-wrap max-sm:justify-center py-2">
       {cast.map((actor) => {

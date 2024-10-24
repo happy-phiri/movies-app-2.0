@@ -4,6 +4,7 @@ import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { useSearchParams, useLoaderData } from "react-router-dom";
 import { fetchPlayingMovies } from "../utils/api";
+import useScrollToTop from "../Hooks/useScrollToTop";
 
 export const loader = ({ request }) => {
   const url = new URL(request.url);
@@ -18,6 +19,7 @@ const NowPlaying = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
   useDocumentTitle("Movies | Playing Now");
+  useScrollToTop(page);
 
   const handleNextPage = () => {
     setSearchParams({ page: page + 1 });

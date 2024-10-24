@@ -3,6 +3,7 @@ import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 import { fetchPopularMovies } from "../utils/api";
+import useScrollToTop from "../Hooks/useScrollToTop";
 
 export const loader = ({ request }) => {
   const url = new URL(request.url);
@@ -17,6 +18,7 @@ const Popular = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
   useDocumentTitle("Movies | Popular");
+  useScrollToTop(page);
 
   const handleNextPage = () => {
     setSearchParams({ page: page + 1 });

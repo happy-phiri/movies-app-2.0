@@ -1,10 +1,11 @@
-import { NavLink, Outlet, useLoaderData } from "react-router-dom";
+import { NavLink, Outlet, useLoaderData, useParams } from "react-router-dom";
 import { GoDotFill } from "react-icons/go";
 import { FaStar } from "react-icons/fa";
 import Button from "../../components/Button";
 import Recommendations from "./Recommendations";
 import { useGlobalContext } from "../../context";
 import { fetchMovie, fetchMovieRecommendations } from "../../utils/api";
+import useScrollToTop from "../../Hooks/useScrollToTop";
 
 export const loader = async ({ params }) => {
   const { id } = params;
@@ -20,8 +21,10 @@ export const loader = async ({ params }) => {
 
 const Movie = () => {
   const { movie, recommendations } = useLoaderData();
+  const { id } = useParams();
   const { addToFavorites, removeFromFavorites, favoriteMovies } =
     useGlobalContext();
+  useScrollToTop(id);
 
   // CHECK IF MOVIE HAS BEEN ADDED TO FAVORITES LIST
   const isFavorite = favoriteMovies.find(

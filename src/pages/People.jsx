@@ -3,6 +3,7 @@ import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import PersonCard from "../components/cards/PersonCard";
 import { fetchPeople } from "../utils/api";
+import useScrollToTop from "../Hooks/useScrollToTop";
 
 export const loader = ({ request }) => {
   const url = new URL(request.url);
@@ -17,6 +18,7 @@ const People = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
   useDocumentTitle("People | Popular TV & Movie Personalities");
+  useScrollToTop(page);
 
   const handleNextPage = () => {
     setSearchParams({ page: page + 1 });

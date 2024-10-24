@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import useDocumentTitle from "../Hooks/useDocumentTitle";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import noImagePng from "../assets/images/no_image.png";
+import useScrollToTop from "../Hooks/useScrollToTop";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +18,7 @@ const Search = () => {
     ? `Search | Results for ${searchTerm}`
     : "Search | Find Your Favorite Movies, Shows, or Actors";
   useDocumentTitle(pageTitle);
+  useScrollToTop(page);
 
   const fetchResults = async (term, page) => {
     if (!term) return;
